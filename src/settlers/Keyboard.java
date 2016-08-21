@@ -54,9 +54,9 @@ public class Keyboard extends GLFWKeyCallback {
 	public static final int KEY_NUMPAD_9 = KeyEvent.VK_NUMPAD9;
 	public static final int KEY_NUMPAD_0 = KeyEvent.VK_NUMPAD0;
 	public static final int KEY_SPACE = KeyEvent.VK_SPACE;
-	public static final int KEY_SHIFT = KeyEvent.VK_SHIFT;
-	public static final int KEY_ENTER = KeyEvent.VK_ENTER;
-	public static final int KEY_ESCAPE = KeyEvent.VK_ESCAPE;
+	public static final int KEY_LSHIFT = 340;
+	public static final int KEY_ENTER = 257;
+	public static final int KEY_ESCAPE = 256;
 	
 	private static boolean key_A_Down = false;
 	private static boolean key_B_Down = false;
@@ -105,7 +105,7 @@ public class Keyboard extends GLFWKeyCallback {
 	private static boolean key_NUMPAD_9_Down = false;
 	private static boolean key_NUMPAD_0_Down = false;
 	private static boolean key_SPACE_Down = false;
-	private static boolean key_SHIFT_Down = false;
+	private static boolean key_LSHIFT_Down = false;
 	private static boolean key_ENTER_Down = false;
 	private static boolean key_ESCAPE_Down = false;
 	
@@ -203,8 +203,8 @@ public class Keyboard extends GLFWKeyCallback {
 				return key_NUMPAD_9_Down;
 			case KEY_NUMPAD_0:
 				return key_NUMPAD_0_Down;
-			case KEY_SHIFT:
-				return key_SHIFT_Down;
+			case KEY_LSHIFT:
+				return key_LSHIFT_Down;
 			case KEY_ENTER:
 				return key_ENTER_Down;
 			case KEY_SPACE:
@@ -220,6 +220,7 @@ public class Keyboard extends GLFWKeyCallback {
 
 	@Override
 	public void invoke(long window, int key, int scancode, int action, int mods) {
+		System.out.println(key);
 		switch(key) {
 			case KEY_A:
 				if(action == GLFW.GLFW_PRESS)
@@ -503,11 +504,11 @@ public class Keyboard extends GLFWKeyCallback {
 				else if(action == GLFW.GLFW_RELEASE)
 					key_SPACE_Down = false;
 				break;
-			case KEY_SHIFT:
+			case KEY_LSHIFT:
 				if(action == GLFW.GLFW_PRESS)
-					key_SHIFT_Down = true;
+					key_LSHIFT_Down = true;
 				else if(action == GLFW.GLFW_RELEASE)
-					key_SHIFT_Down = false;
+					key_LSHIFT_Down = false;
 				break;
 			case KEY_ENTER:
 				if(action == GLFW.GLFW_PRESS)
@@ -521,7 +522,6 @@ public class Keyboard extends GLFWKeyCallback {
 				else if(action == GLFW.GLFW_RELEASE)
 					key_ESCAPE_Down = false;
 				break;
-				
 		}
 	}
 }

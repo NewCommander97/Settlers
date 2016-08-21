@@ -65,7 +65,7 @@ public class Camera {
         boolean keyFast = Keyboard.isKeyDown(Keyboard.KEY_Q);
         boolean keySlow = Keyboard.isKeyDown(Keyboard.KEY_E);
         boolean keyFlyUp = Keyboard.isKeyDown(Keyboard.KEY_SPACE);
-        boolean keyFlyDown = Keyboard.isKeyDown(Keyboard.KEY_SHIFT);
+        boolean keyFlyDown = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT);
 
 
         float speed;

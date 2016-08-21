@@ -26,8 +26,6 @@ public class Main {
 	private int mouseY = 0;
 	private float positionZ = -4.0f;
 	private float rotate = -45.0f;
-	private boolean wdown = false;
-	private boolean sdown = false;
 	
 	public static void main(String[] args) {
 		new Main().run();
@@ -52,15 +50,17 @@ public class Main {
 	
 	private void loop() {
 		while ( !glfwWindowShouldClose(window) ) {
+			if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
+				glfwSetWindowShouldClose(window, true);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 			glLoadIdentity(); 
 			
 			//DrawUtilities.drawLine(new Color(1, 1, 1), new Point(100, 100), new Point(WINDOW_WIDTH - 100, WINDOW_HEIGHT - 100));
 			//DrawUtilities.drawQuad(new Color(1, 1, 1), new Point(400, 10), new Point(600, 10), new Point(400, 210), new Point(600, 210));
 			glPushMatrix();
-			if(wdown)
+			if(Keyboard.isKeyDown(Keyboard.KEY_W))
 				rotate -= 0.4f;
-			if(sdown)
+			if(Keyboard.isKeyDown(Keyboard.KEY_S))
 				rotate += 0.4f;
 			float x, y, z;
 			x = -0.5f;
@@ -76,10 +76,10 @@ public class Main {
 			//TextureDrawer.drawTexture(textureManager.getTexture("sand"), new Point(0, 0));
 			//TextureDrawer.drawTexture(textureManager.getTexture("test"), new Point(mouseX, mouseY));
 			
-			/*if(wdown)
+			if(Keyboard.isKeyDown(Keyboard.KEY_E))
 				positionZ -= 0.2f;
-			if(sdown)
-				positionZ += 0.2f;*/
+			if(Keyboard.isKeyDown(Keyboard.KEY_D))
+				positionZ += 0.2f;
 			glPushMatrix();
 			glTranslatef(0.0f, 0.0f, positionZ);
 			glColor3f(0.1f, 0.4f, 0.9f);
@@ -194,8 +194,8 @@ public class Main {
 		
 		// Setup a key callback. It will be called every time a key is pressed, repeated or released.
 		GLFWKeyCallback keyboard;
-		//glfwSetKeyCallback(window, keyboard = new Keyboard());
-		glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
+		glfwSetKeyCallback(window, keyboard = new Keyboard());
+		/*glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
 			if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
 				glfwSetWindowShouldClose(window, true); // We will detect this in our rendering loop
 			if ( key == GLFW_KEY_W && action == GLFW_PRESS)
@@ -206,8 +206,7 @@ public class Main {
 				sdown = true;
 			if ( key == GLFW_KEY_S && action == GLFW_RELEASE)
 				sdown = false;
-			
-		});
+		});*/
 		
 		glfwSetMouseButtonCallback(window, (window, button, action, mods) -> {
 			if(button == GLFW_MOUSE_BUTTON_1 && action == GLFW_RELEASE) {
