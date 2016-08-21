@@ -208,11 +208,14 @@ public class Main {
 				sdown = false;
 		});*/
 		
-		glfwSetMouseButtonCallback(window, (window, button, action, mods) -> {
+		
+		GLFWMouseButtonCallback mouse;
+		glfwSetMouseButtonCallback(window, mouse = new Mouse());
+		/*glfwSetMouseButtonCallback(window, (window, button, action, mods) -> {
 			if(button == GLFW_MOUSE_BUTTON_1 && action == GLFW_RELEASE) {
 				System.out.println("Linke Maustaste losgelassen");
 			}
-		});
+		});*/
 		
 		glfwSetCursorPosCallback(window, (window, xpos, ypos) -> {
 			mouseX = (int) xpos;
@@ -239,7 +242,5 @@ public class Main {
 
 		// Make the window visible
 		glfwShowWindow(window);
-		
-		//Test
 	}
 }

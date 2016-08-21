@@ -220,7 +220,6 @@ public class Keyboard extends GLFWKeyCallback {
 
 	@Override
 	public void invoke(long window, int key, int scancode, int action, int mods) {
-		System.out.println(key);
 		switch(key) {
 			case KEY_A:
 				if(action == GLFW.GLFW_PRESS)
