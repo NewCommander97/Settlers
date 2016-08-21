@@ -191,7 +191,7 @@ public class Main {
 			throw new RuntimeException("Failed to create the GLFW window");
 		
 		// Setup a key callback. It will be called every time a key is pressed, repeated or released.
-		GLFWKeyCallback keyboard; 
+		GLFWKeyCallback keyboard;
 		glfwSetKeyCallback(window, keyboard = new Keyboard());
 		/*glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
 			if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
