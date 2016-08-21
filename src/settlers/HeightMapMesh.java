@@ -1,6 +1,7 @@
 package settlers;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class HeightMapMesh {
 		this.minY = minY;
 		this.maxY = maxY;
 
-		BufferedImage buffImage = ImageIO.read(getClass().getResourceAsStream(heightMapFile));
+		BufferedImage buffImage = ImageIO.read(new File(heightMapFile));
 		int height = buffImage.getHeight();
 		int width = buffImage.getWidth();
 		

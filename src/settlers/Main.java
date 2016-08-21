@@ -26,6 +26,9 @@ public class Main {
 	private int mouseY = 0;
 	private float positionZ = -4.0f;
 	private float rotate = -45.0f;
+	private float lastFrame = 0;
+	
+	private HeightMapMesh hmm;
 	
 	public static void main(String[] args) {
 		new Main().run();
@@ -49,11 +52,21 @@ public class Main {
 	}
 	
 	private void loop() {
+		
+		try {
+			hmm = new HeightMapMesh(0.0f, 0.1f, "res/Heighmap.png", "res/grass.jpg", 5);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		while ( !glfwWindowShouldClose(window) ) {
 			if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
 				glfwSetWindowShouldClose(window, true);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 			glLoadIdentity(); 
+			Camera.acceptInput(getDelta());
+			Camera.apply();
+			hmm.getMesh().render();
 			
 			//DrawUtilities.drawLine(new Color(1, 1, 1), new Point(100, 100), new Point(WINDOW_WIDTH - 100, WINDOW_HEIGHT - 100));
 			//DrawUtilities.drawQuad(new Color(1, 1, 1), new Point(400, 10), new Point(600, 10), new Point(400, 210), new Point(600, 210));
@@ -159,6 +172,8 @@ public class Main {
 		glEnable(GL_COLOR_MATERIAL);								// enables opengl to use glColor3f to define material color
 		glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);			// tell opengl glColor3f effects the ambient and diffuse properties of material
 		//----------- END: Variables & method calls added for Lighting Test -----------//
+		
+		Camera.create();
 	}
 	
 
@@ -242,5 +257,17 @@ public class Main {
 
 		// Make the window visible
 		glfwShowWindow(window);
+	}
+	
+	public long getTime() {
+	    return System.nanoTime() / 10000000;
+	}
+	
+	public float getDelta() {
+	    long time = getTime();
+	    float delta = time - lastFrame;
+	    lastFrame = time;
+	         
+	    return delta;
 	}
 }
