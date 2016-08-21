@@ -521,6 +521,7 @@ public class Keyboard extends GLFWKeyCallback {
 				else if(action == GLFW.GLFW_RELEASE)
 					key_ESCAPE_Down = false;
 				break;
+				
 		}
 	}
 }
