@@ -2,6 +2,7 @@ package settlers;
 
 import java.awt.event.KeyEvent;
 
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWKeyCallback;
 
 public class Keyboard extends GLFWKeyCallback {
@@ -55,6 +56,7 @@ public class Keyboard extends GLFWKeyCallback {
 	public static final int KEY_SPACE = KeyEvent.VK_SPACE;
 	public static final int KEY_SHIFT = KeyEvent.VK_SHIFT;
 	public static final int KEY_ENTER = KeyEvent.VK_ENTER;
+	public static final int KEY_ESCAPE = KeyEvent.VK_ESCAPE;
 	
 	private static boolean key_A_Down = false;
 	private static boolean key_B_Down = false;
@@ -92,6 +94,20 @@ public class Keyboard extends GLFWKeyCallback {
 	private static boolean key_8_Down = false;
 	private static boolean key_9_Down = false;
 	private static boolean key_0_Down = false;
+	private static boolean key_NUMPAD_1_Down = false;
+	private static boolean key_NUMPAD_2_Down = false;
+	private static boolean key_NUMPAD_3_Down = false;
+	private static boolean key_NUMPAD_4_Down = false;
+	private static boolean key_NUMPAD_5_Down = false;
+	private static boolean key_NUMPAD_6_Down = false;
+	private static boolean key_NUMPAD_7_Down = false;
+	private static boolean key_NUMPAD_8_Down = false;
+	private static boolean key_NUMPAD_9_Down = false;
+	private static boolean key_NUMPAD_0_Down = false;
+	private static boolean key_SPACE_Down = false;
+	private static boolean key_SHIFT_Down = false;
+	private static boolean key_ENTER_Down = false;
+	private static boolean key_ESCAPE_Down = false;
 	
 	public static boolean isKeyDown(int key) {
 		switch(key) {
@@ -168,31 +184,33 @@ public class Keyboard extends GLFWKeyCallback {
 			case KEY_0:
 				return key_0_Down;
 			case KEY_NUMPAD_1:
-				break;
+				return key_NUMPAD_1_Down;
 			case KEY_NUMPAD_2:
-				break;
+				return key_NUMPAD_2_Down;
 			case KEY_NUMPAD_3:
-				break;
+				return key_NUMPAD_3_Down;
 			case KEY_NUMPAD_4:
-				break;
+				return key_NUMPAD_4_Down;
 			case KEY_NUMPAD_5:
-				break;
+				return key_NUMPAD_5_Down;
 			case KEY_NUMPAD_6:
-				break;
+				return key_NUMPAD_6_Down;
 			case KEY_NUMPAD_7:
-				break;
+				return key_NUMPAD_7_Down;
 			case KEY_NUMPAD_8:
-				break;
+				return key_NUMPAD_8_Down;
 			case KEY_NUMPAD_9:
-				break;
+				return key_NUMPAD_9_Down;
 			case KEY_NUMPAD_0:
-				break;
+				return key_NUMPAD_0_Down;
 			case KEY_SHIFT:
-				break;
+				return key_SHIFT_Down;
 			case KEY_ENTER:
-				break;
+				return key_ENTER_Down;
 			case KEY_SPACE:
-				break;
+				return key_SPACE_Down;
+			case KEY_ESCAPE:
+				return key_ESCAPE_Down;
 			default:
 				break;
 		}
@@ -202,7 +220,306 @@ public class Keyboard extends GLFWKeyCallback {
 	@Override
 	public void invoke(long window, int key, int scancode, int action, int mods) {
 		switch(key) {
-			
+			case KEY_A:
+				if(action == GLFW.GLFW_PRESS)
+					key_A_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_A_Down = false;
+				break;
+			case KEY_B:
+				if(action == GLFW.GLFW_PRESS)
+					key_B_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_B_Down = false;
+				break;
+			case KEY_C:
+				if(action == GLFW.GLFW_PRESS)
+					key_C_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_C_Down = false;
+				break;
+			case KEY_D:
+				if(action == GLFW.GLFW_PRESS)
+					key_D_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_D_Down = false;
+				break;
+			case KEY_E:
+				if(action == GLFW.GLFW_PRESS)
+					key_E_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_E_Down = false;
+				break;
+			case KEY_F:
+				if(action == GLFW.GLFW_PRESS)
+					key_F_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_F_Down = false;
+				break;
+			case KEY_G:
+				if(action == GLFW.GLFW_PRESS)
+					key_G_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_G_Down = false;
+				break;
+			case KEY_H:
+				if(action == GLFW.GLFW_PRESS)
+					key_H_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_H_Down = false;
+				break;
+			case KEY_I:
+				if(action == GLFW.GLFW_PRESS)
+					key_I_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_I_Down = false;
+				break;
+			case KEY_J:
+				if(action == GLFW.GLFW_PRESS)
+					key_J_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_J_Down = false;
+				break;
+			case KEY_K:
+				if(action == GLFW.GLFW_PRESS)
+					key_K_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_K_Down = false;
+				break;
+			case KEY_L:
+				if(action == GLFW.GLFW_PRESS)
+					key_L_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_L_Down = false;
+				break;
+			case KEY_M:
+				if(action == GLFW.GLFW_PRESS)
+					key_M_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_M_Down = false;
+				break;
+			case KEY_N:
+				if(action == GLFW.GLFW_PRESS)
+					key_N_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_N_Down = false;
+				break;
+			case KEY_O:
+				if(action == GLFW.GLFW_PRESS)
+					key_O_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_O_Down = false;
+				break;
+			case KEY_P:
+				if(action == GLFW.GLFW_PRESS)
+					key_P_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_P_Down = false;
+				break;
+			case KEY_Q:
+				if(action == GLFW.GLFW_PRESS)
+					key_Q_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_Q_Down = false;
+				break;
+			case KEY_R:
+				if(action == GLFW.GLFW_PRESS)
+					key_R_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_R_Down = false;
+				break;
+			case KEY_S:
+				if(action == GLFW.GLFW_PRESS)
+					key_S_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_S_Down = false;
+				break;
+			case KEY_T:
+				if(action == GLFW.GLFW_PRESS)
+					key_T_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_T_Down = false;
+				break;
+			case KEY_U:
+				if(action == GLFW.GLFW_PRESS)
+					key_U_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_U_Down = false;
+				break;
+			case KEY_V:
+				if(action == GLFW.GLFW_PRESS)
+					key_V_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_V_Down = false;
+				break;
+			case KEY_W:
+				if(action == GLFW.GLFW_PRESS)
+					key_W_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_W_Down = false;
+				break;
+			case KEY_X:
+				if(action == GLFW.GLFW_PRESS)
+					key_X_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_X_Down = false;
+				break;
+			case KEY_Y:
+				if(action == GLFW.GLFW_PRESS)
+					key_Y_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_Y_Down = false;
+				break;
+			case KEY_Z:
+				if(action == GLFW.GLFW_PRESS)
+					key_Z_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_Z_Down = false;
+				break;
+			case KEY_1:
+				if(action == GLFW.GLFW_PRESS)
+					key_1_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_1_Down = false;
+				break;
+			case KEY_2:
+				if(action == GLFW.GLFW_PRESS)
+					key_2_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_2_Down = false;
+				break;
+			case KEY_3:
+				if(action == GLFW.GLFW_PRESS)
+					key_3_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_3_Down = false;
+				break;
+			case KEY_4:
+				if(action == GLFW.GLFW_PRESS)
+					key_4_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_4_Down = false;
+				break;
+			case KEY_5:
+				if(action == GLFW.GLFW_PRESS)
+					key_5_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_5_Down = false;
+				break;
+			case KEY_6:
+				if(action == GLFW.GLFW_PRESS)
+					key_6_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_6_Down = false;
+				break;
+			case KEY_7:
+				if(action == GLFW.GLFW_PRESS)
+					key_7_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_7_Down = false;
+				break;
+			case KEY_8:
+				if(action == GLFW.GLFW_PRESS)
+					key_8_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_8_Down = false;
+				break;
+			case KEY_9:
+				if(action == GLFW.GLFW_PRESS)
+					key_9_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_9_Down = false;
+				break;
+			case KEY_0:
+				if(action == GLFW.GLFW_PRESS)
+					key_0_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_0_Down = false;
+				break;
+			case KEY_NUMPAD_1:
+				if(action == GLFW.GLFW_PRESS)
+					key_NUMPAD_1_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_NUMPAD_1_Down = false;
+				break;
+			case KEY_NUMPAD_2:
+				if(action == GLFW.GLFW_PRESS)
+					key_NUMPAD_2_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_NUMPAD_2_Down = false;
+				break;
+			case KEY_NUMPAD_3:
+				if(action == GLFW.GLFW_PRESS)
+					key_NUMPAD_3_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_NUMPAD_3_Down = false;
+				break;
+			case KEY_NUMPAD_4:
+				if(action == GLFW.GLFW_PRESS)
+					key_NUMPAD_4_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_NUMPAD_4_Down = false;
+				break;
+			case KEY_NUMPAD_5:
+				if(action == GLFW.GLFW_PRESS)
+					key_NUMPAD_5_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_NUMPAD_5_Down = false;
+				break;
+			case KEY_NUMPAD_6:
+				if(action == GLFW.GLFW_PRESS)
+					key_NUMPAD_6_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_NUMPAD_6_Down = false;
+				break;
+			case KEY_NUMPAD_7:
+				if(action == GLFW.GLFW_PRESS)
+					key_NUMPAD_7_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_NUMPAD_7_Down = false;
+				break;
+			case KEY_NUMPAD_8:
+				if(action == GLFW.GLFW_PRESS)
+					key_NUMPAD_8_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_NUMPAD_8_Down = false;
+				break;
+			case KEY_NUMPAD_9:
+				if(action == GLFW.GLFW_PRESS)
+					key_NUMPAD_9_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_NUMPAD_9_Down = false;
+				break;
+			case KEY_NUMPAD_0:
+				if(action == GLFW.GLFW_PRESS)
+					key_NUMPAD_0_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_NUMPAD_0_Down = false;
+				break;
+			case KEY_SPACE:
+				if(action == GLFW.GLFW_PRESS)
+					key_SPACE_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_SPACE_Down = false;
+				break;
+			case KEY_SHIFT:
+				if(action == GLFW.GLFW_PRESS)
+					key_SHIFT_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_SHIFT_Down = false;
+				break;
+			case KEY_ENTER:
+				if(action == GLFW.GLFW_PRESS)
+					key_ENTER_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_ENTER_Down = false;
+				break;
+			case KEY_ESCAPE:
+				if(action == GLFW.GLFW_PRESS)
+					key_ESCAPE_Down = true;
+				else if(action == GLFW.GLFW_RELEASE)
+					key_ESCAPE_Down = false;
+				break;
 		}
 	}
 }
