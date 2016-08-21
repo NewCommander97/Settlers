@@ -58,6 +58,7 @@ public class Keyboard extends GLFWKeyCallback {
 	public static final int KEY_ENTER = KeyEvent.VK_ENTER;
 	public static final int KEY_ESCAPE = KeyEvent.VK_ESCAPE;
 	
+	
 	private static boolean key_A_Down = false;
 	private static boolean key_B_Down = false;
 	private static boolean key_C_Down = false;
@@ -108,6 +109,7 @@ public class Keyboard extends GLFWKeyCallback {
 	private static boolean key_SHIFT_Down = false;
 	private static boolean key_ENTER_Down = false;
 	private static boolean key_ESCAPE_Down = false;
+	
 	
 	public static boolean isKeyDown(int key) {
 		switch(key) {
@@ -216,6 +218,7 @@ public class Keyboard extends GLFWKeyCallback {
 		}
 		return false;
 	}
+	
 
 	@Override
 	public void invoke(long window, int key, int scancode, int action, int mods) {
