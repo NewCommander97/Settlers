@@ -29,11 +29,19 @@ public class Texture {
 		return height;
 	}
 	
+	public int getId() {
+		return texture;
+	}
+	
 	public void bind() {
 		glBindTexture(GL_TEXTURE_2D, texture);
 	}
 	
 	public void unbind() {
 		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+	
+	public void cleanup() {
+		glDeleteTextures(texture);
 	}
 }
