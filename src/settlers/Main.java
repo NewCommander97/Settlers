@@ -240,5 +240,7 @@ public class Main {
 
 		// Make the window visible
 		glfwShowWindow(window);
+		
+		//Test
 	}
 }
