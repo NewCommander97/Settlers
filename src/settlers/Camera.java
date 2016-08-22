@@ -5,7 +5,7 @@ import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.util.vector.Vector3f;
 
 public class Camera {
-    public static float moveSpeed = 0.2f;
+    public static float moveSpeed = 0.07f;
 
     private static float maxLook = 85;
 
