@@ -27,8 +27,8 @@ public class HeightMapMesh {
 		
 		Texture texture = TextureLoader.loadTexture(textureFile);
 
-		float incx = getXLength() / (width - 1);
-        float incz = getZLength() / (height - 1);
+		float incx = 50 * getXLength() / (width - 1);
+        float incz = 50 * getZLength() / (height - 1);
 
         List<Float> positions = new ArrayList();
         List<Float> textCoords = new ArrayList();

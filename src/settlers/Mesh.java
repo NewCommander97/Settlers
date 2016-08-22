@@ -21,7 +21,7 @@ public class Mesh {
     private final int vertexCount;
 
     private Material material;
-
+    
     public Mesh(float[] positions, float[] textCoords, float[] normals, int[] indices) {
         vertexCount = indices.length;
         vboIdList = new ArrayList();
@@ -84,12 +84,11 @@ public class Mesh {
         return vertexCount;
     }
 
-    private void initRender() {
+    public void initRender() {
         Texture texture = material.getTexture();
         if (texture != null) {
-            // Activate firs texture bank
+        	glColor3f(1.0f, 1.0f, 1.0f);
             glActiveTexture(GL_TEXTURE0);
-            // Bind the texture
             glBindTexture(GL_TEXTURE_2D, texture.getId());
         }
 
@@ -111,10 +110,8 @@ public class Mesh {
     }
 
     public void render() {
-        initRender();
-        
+        //initRender();
         glDrawElements(GL_TRIANGLES, getVertexCount(), GL_UNSIGNED_INT, 0);
-
         endRender();
     }
     

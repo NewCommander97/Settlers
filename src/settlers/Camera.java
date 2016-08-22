@@ -5,7 +5,7 @@ import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.util.vector.Vector3f;
 
 public class Camera {
-    public static float moveSpeed = 0.2f;
+    public static float moveSpeed = 0.1f;
 
     private static float maxLook = 85;
 
@@ -39,22 +39,22 @@ public class Camera {
     }
 
     public static void acceptInputRotate(float delta) {
-        /*if(Mouse.isGrabbed()) {
-            float mouseDX = Mouse.getDX();
-            float mouseDY = -Mouse.getDY();
+        if(Mouse.isGrabbed()) {
+            float mouseDX = (float)Mouse.getDX();
+            float mouseDY = (float)-Mouse.getDY();
             rotation.y += mouseDX * mouseSensitivity * delta;
             rotation.x += mouseDY * mouseSensitivity * delta;
             rotation.x = Math.max(-maxLook, Math.min(maxLook, rotation.x));
-        }*/
+        }
     }
 
     public static void acceptInputGrab() {
-        /*if(Mouse.isInsideWindow() && Mouse.isButtonDown(0)) {
+        if(Mouse.isButtonDown(Mouse.MOUSE_BUTTON_0)) {
             Mouse.setGrabbed(true);
         }
-        if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
+        if(!Mouse.isButtonDown(Mouse.MOUSE_BUTTON_0)) {
             Mouse.setGrabbed(false);
-        }*/
+        }
     }
 
     public static void acceptInputMove(float delta) {
