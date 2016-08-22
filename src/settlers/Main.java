@@ -154,6 +154,8 @@ public class Main {
 		glEnable(GL_DEPTH_TEST); // Enables depth testing
 		glDepthFunc(GL_LEQUAL); // sets the type of test to use for depth testing
 		glMatrixMode(GL_PROJECTION); // sets the matrix mode to project
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_TEXTURE_2D);
 		
 		float fovy = 45.0f;

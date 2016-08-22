@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.nio.FloatBuffer;
+import java.util.List;
 
 import org.lwjgl.BufferUtils;
 
@@ -74,5 +75,23 @@ public class Utilities {
 	
 	public static boolean isEven(int i) {
 		return (i & 1) == 0;
+	}
+	
+	public static float[] listToArray(List<Float> list) {
+        int size = list != null ? list.size() : 0;
+        float[] floatArr = new float[size];
+        for (int i = 0; i < size; i++) {
+            floatArr[i] = list.get(i);
+        }
+        return floatArr;
+    }
+	
+	public static int[] intListToArray(List<Integer> list) {
+		int size = list != null ? list.size() : 0;
+        int[] intArr = new int[size];
+        for (int i = 0; i < size; i++) {
+            intArr[i] = list.get(i);
+        }
+        return intArr;
 	}
 }
