@@ -22,11 +22,10 @@ public class Main {
 	
 	private long window;
 	private TextureManager textureManager = new TextureManager();
-	private int mouseX = 0;
-	private int mouseY = 0;
 	private float positionZ = -4.0f;
 	private float rotate = -45.0f;
 	private float lastFrame = 0;
+	private double mouseX = 0, mouseY = 0;
 	
 	private HeightMapMesh hmm;
 	
@@ -39,7 +38,7 @@ public class Main {
 
 		try {
 			initGLFW();
-			initGL();
+			initOpenGL3D();
 			loadTextures();
 			loop();
 			
@@ -54,7 +53,16 @@ public class Main {
 	private void loop() {
 		
 		try {
-			hmm = new HeightMapMesh(0.0f, 0.1f, "res/Heighmap.png", "res/grass.jpg", 5);
+			hmm = new HeightMapMesh(0.0f, 2.0f, "res/Heightmap_small.png", "res/grass.jpg", 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		ShaderProgram shaderProgram = null;
+        try {
+			shaderProgram = new ShaderProgram(Utilities.readFileAsString("res/shaders/shader.vert"), Utilities.readFileAsString("res/shaders/shader.frag"));
+		} catch (LWJGLException e) {
+			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -63,17 +71,22 @@ public class Main {
 			if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
 				glfwSetWindowShouldClose(window, true);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-			glLoadIdentity(); 
+			
+			glLoadIdentity();
+			
 			Camera.acceptInput(getDelta());
 			Camera.apply();
-			hmm.getMesh().render();
 			
-			//DrawUtilities.drawLine(new Color(1, 1, 1), new Point(100, 100), new Point(WINDOW_WIDTH - 100, WINDOW_HEIGHT - 100));
-			//DrawUtilities.drawQuad(new Color(1, 1, 1), new Point(400, 10), new Point(600, 10), new Point(400, 210), new Point(600, 210));
+			hmm.getMesh().initRender();
+			shaderProgram.use();
+			shaderProgram.setUniformi(shaderProgram.getUniformLocation("texture"), 0);
+			hmm.getMesh().render();
+			ShaderProgram.unbind();
+			
 			glPushMatrix();
-			if(Keyboard.isKeyDown(Keyboard.KEY_W))
+			if(Keyboard.isKeyDown(Keyboard.KEY_R))
 				rotate -= 0.4f;
-			if(Keyboard.isKeyDown(Keyboard.KEY_S))
+			if(Keyboard.isKeyDown(Keyboard.KEY_F))
 				rotate += 0.4f;
 			float x, y, z;
 			x = -0.5f;
@@ -85,20 +98,19 @@ public class Main {
 			DrawUtilities.drawPlane(textureManager.getTexture("grass"), x, y, z, 1, 1);
 			glPopMatrix();
 			
-			//TextureDrawer.drawTexture(textureManager.getTexture("grass"), new Point(0, 0), WINDOW_WIDTH, WINDOW_HEIGHT);
-			//TextureDrawer.drawTexture(textureManager.getTexture("sand"), new Point(0, 0));
-			//TextureDrawer.drawTexture(textureManager.getTexture("test"), new Point(mouseX, mouseY));
-			
-			if(Keyboard.isKeyDown(Keyboard.KEY_E))
+			/*if(Keyboard.isKeyDown(Keyboard.KEY_T))
 				positionZ -= 0.2f;
-			if(Keyboard.isKeyDown(Keyboard.KEY_D))
+			if(Keyboard.isKeyDown(Keyboard.KEY_G))
 				positionZ += 0.2f;
 			glPushMatrix();
 			glTranslatef(0.0f, 0.0f, positionZ);
 			glColor3f(0.1f, 0.4f, 0.9f);
 			Sphere s = new Sphere();
 			s.draw(1.0f, 20, 116);
-			glPopMatrix();
+			glPopMatrix();*/
+			
+			Mouse.setX(mouseX);
+			Mouse.setY(mouseY);
 			
 			glfwSwapBuffers(window); // swap the color buffers
 			
@@ -112,7 +124,7 @@ public class Main {
 		textureManager.addTexture("test", "res/test.png");
 	}
 	
-	/*private void initGL() {
+	private void initOpenGL2D() {
 		GL.createCapabilities();
 		
 		glOrtho(0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 1, -1);
@@ -127,20 +139,23 @@ public class Main {
 		glMatrixMode(GL_MODELVIEW);
 		
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	}*/
+	}
 	
 	private FloatBuffer matSpecular;
 	private FloatBuffer lightPosition;
 	private FloatBuffer whiteLight; 
 	private FloatBuffer lModelAmbient;
 	
-	private void initGL() {
+	private void initOpenGL3D() {
 		GL.createCapabilities();
+		System.out.println(glGetString(GL_VERSION));
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f); // sets background to grey
 		glClearDepth(1.0f); // clear depth buffer
 		glEnable(GL_DEPTH_TEST); // Enables depth testing
 		glDepthFunc(GL_LEQUAL); // sets the type of test to use for depth testing
 		glMatrixMode(GL_PROJECTION); // sets the matrix mode to project
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_TEXTURE_2D);
 		
 		float fovy = 45.0f;
@@ -174,6 +189,11 @@ public class Main {
 		//----------- END: Variables & method calls added for Lighting Test -----------//
 		
 		Camera.create();
+		
+		
+		//Wireframe Modus
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	    //glDisable(GL_TEXTURE_2D);
 	}
 	
 
@@ -233,8 +253,8 @@ public class Main {
 		});*/
 		
 		glfwSetCursorPosCallback(window, (window, xpos, ypos) -> {
-			mouseX = (int) xpos;
-			mouseY = (int) ypos;
+			mouseX = xpos;
+			mouseY = ypos;
 		});
 		
 		glfwSetScrollCallback(window, (window, xoffset, yoffset) -> {

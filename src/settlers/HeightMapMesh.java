@@ -27,8 +27,8 @@ public class HeightMapMesh {
 		
 		Texture texture = TextureLoader.loadTexture(textureFile);
 
-		float incx = getXLength() / (width - 1);
-        float incz = getZLength() / (height - 1);
+		float incx = 50 * getXLength() / (width - 1);
+        float incz = 50 * getZLength() / (height - 1);
 
         List<Float> positions = new ArrayList();
         List<Float> textCoords = new ArrayList();
@@ -42,8 +42,8 @@ public class HeightMapMesh {
                 positions.add(STARTZ + row * incz); //z
 
                 // Set texture coordinates
-                textCoords.add((float) textInc * (float) col / (float) width);
-                textCoords.add((float) textInc * (float) row / (float) height);
+                textCoords.add((float) textInc * (float) col + 1 / (float) width);
+                textCoords.add((float) textInc * (float) row + 1 / (float) height);
 
                 // Create indices
                 if (col < width - 1 && row < height - 1) {
@@ -62,9 +62,10 @@ public class HeightMapMesh {
                 }
             }
         }
-        float[] posArr = Utils.listToArray(positions);
-        int[] indicesArr = indices.stream().mapToInt(i -> i).toArray();
-        float[] textCoordsArr = Utils.listToArray(textCoords);
+        float[] posArr = Utilities.listToArray(positions);
+        //int[] indicesArr = indices.stream().mapToInt(i -> i).toArray();
+        int[] indicesArr = Utilities.intListToArray(indices);
+        float[] textCoordsArr = Utilities.listToArray(textCoords);
         float[] normalsArr = calcNormals(posArr, width, height);
         this.mesh = new Mesh(posArr, textCoordsArr, normalsArr, indicesArr);
         Material material = new Material(texture, 0.0f);
@@ -152,7 +153,7 @@ public class HeightMapMesh {
                 normals.add(normal.z);
             }
         }
-        return Utils.listToArray(normals);
+        return Utilities.listToArray(normals);
     }
 
     private float getHeight(int x, int z, BufferedImage buffImage) {

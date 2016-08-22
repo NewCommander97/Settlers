@@ -19,6 +19,13 @@ public class Mouse extends GLFWMouseButtonCallback {
 	private static boolean mouseButton_4_Down = false;
 	private static boolean mouseButton_5_Down = false;
 	
+	private static boolean grabbed = false;
+	
+	private static double posX = 0;
+	private static double posY = 0;
+	private static double deltaX = 0;
+	private static double deltaY = 0;
+	
 	public static boolean isButtonDown(int button) {
 		switch(button) {
 			case MOUSE_BUTTON_0:
@@ -35,6 +42,40 @@ public class Mouse extends GLFWMouseButtonCallback {
 				return mouseButton_5_Down;
 		}
 		return false;
+	}
+	
+	public static boolean isGrabbed() {
+		return grabbed;
+	}
+	
+	public static void setGrabbed(boolean b) {
+		grabbed = b;
+	}
+	
+	public static void setX(double x) {
+		deltaX = x - posX;
+		posX = x;
+	}
+	
+	public static void setY(double y) {
+		deltaY = y - posY;
+		posY = y;
+	}
+	
+	public static double getX() {
+		return posX;
+	}
+	
+	public static double getY() {
+		return posY;
+	}
+	
+	public static double getDX() {
+		return deltaX;
+	}
+	
+	public static double getDY() {
+		return deltaY;
 	}
 	
 	@Override

@@ -26,16 +26,16 @@ public class DrawUtilities {
 	}
 	
 	public static void drawPlane(Texture texture, float x, float y, float z, float width, float height) {
-		glColor4f(1, 1, 1, 0);
+		glColor3f(1, 1, 1);
 		texture.bind();
 		glBegin(GL_QUADS);
-			glTexCoord3f(0, 0, 1);
+			glTexCoord2f(0, 0);
 			glVertex3f(x, y, z);
-			glTexCoord3f(1, 0, 1);
+			glTexCoord2f(1, 0);
 			glVertex3f(x, y - height, z);
-			glTexCoord3f(1, 1, 1);
+			glTexCoord2f(1, 1);
 			glVertex3f(x + width, y - height, z);
-			glTexCoord3f(0, 1, 1);
+			glTexCoord2f(0, 1);
 			glVertex3f(x + width, y, z);
 		glEnd();
 		texture.unbind();
