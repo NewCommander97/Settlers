@@ -16,7 +16,7 @@ public class HeightMapMesh {
 	private float maxY;
 	private Mesh mesh;
 	
-	public HeightMapMesh(float minY, float maxY, String heightMapFile, String textureFile, int textInc) throws Exception {
+	public HeightMapMesh(float minY, float maxY, String heightMapFile, Texture texture, int textInc) throws Exception {
 		
 		this.minY = minY;
 		this.maxY = maxY;
@@ -24,8 +24,6 @@ public class HeightMapMesh {
 		BufferedImage buffImage = ImageIO.read(new File(heightMapFile));
 		int height = buffImage.getHeight();
 		int width = buffImage.getWidth();
-		
-		Texture texture = TextureLoader.loadTexture(textureFile);
 
 		float incx = 50 * getXLength() / (width - 1);
         float incz = 50 * getZLength() / (height - 1);
@@ -68,7 +66,7 @@ public class HeightMapMesh {
         float[] textCoordsArr = Utilities.listToArray(textCoords);
         float[] normalsArr = calcNormals(posArr, width, height);
         this.mesh = new Mesh(posArr, textCoordsArr, normalsArr, indicesArr);
-        Material material = new Material(texture, 0.0f);
+        Material material = new Material(texture);
         mesh.setMaterial(material);
 	}
 	
