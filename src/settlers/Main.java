@@ -58,7 +58,7 @@ public class Main {
 	private void loop() {
 		
 		try {
-			hmm = new HeightMapMesh(0.0f, 3.0f, "res/Heightmap_small.png", textureManager.getTexture("sand"), 10);
+			hmm = new HeightMapMesh(0.0f, 3.0f, "res/Heightmap_small.png", textureManager.getTexture("grass"), 10);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -73,6 +73,8 @@ public class Main {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+        
+        Model m = ModelLoader.loadModel("res/Mine_UV.obj");
 		
 		while ( !glfwWindowShouldClose(window) ) {
 			if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
@@ -88,6 +90,10 @@ public class Main {
 			shaderProgram.setUniformi(shaderProgram.getUniformLocation("texture_diffuse"), 0);
 			hmm.getMesh().render();
 			ShaderProgram.unbind();
+			
+			textureManager.getTexture("mine").bind();
+			m.render(10, -2.1f, 10, 0.5f);
+			glBindTexture(GL_TEXTURE_2D, 0);
 			
 			glPushMatrix();
 			if(Keyboard.isKeyDown(Keyboard.KEY_R))
@@ -115,6 +121,7 @@ public class Main {
 		textureManager.addTexture("sand", "res/sand_diffuse.png");
 		textureManager.addTexture("sand_normal", "res/sand_normalmap.png");
 		textureManager.addTexture("test", "res/test.png");
+		textureManager.addTexture("mine", "res/Mine_diffuse.png");
 	}
 	
 	private void initOpenGL2D() {
