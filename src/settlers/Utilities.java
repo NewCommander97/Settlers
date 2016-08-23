@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.nio.FloatBuffer;
 import java.util.List;
+import java.util.Random;
 
 import org.lwjgl.BufferUtils;
 
@@ -93,5 +94,16 @@ public class Utilities {
             intArr[i] = list.get(i);
         }
         return intArr;
+	}
+	
+	public static float RandomFloat(float start, float end)
+	{
+		Random random = new Random();
+		float r = Math.abs(random.nextFloat());
+		if (r < start)
+			r += start;
+		if (r > end)
+			r = r % end;
+		return r;
 	}
 }
