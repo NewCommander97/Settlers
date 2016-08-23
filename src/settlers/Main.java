@@ -84,13 +84,8 @@ public class Main {
 			Camera.acceptInput(getDelta());
 			Camera.apply();
 			
-<<<<<<< HEAD
-			//shaderProgram.use();
-			//shaderProgram.setUniformi(shaderProgram.getUniformLocation("texture"), 0);
-=======
 			shaderProgram.use();
 			shaderProgram.setUniformi(shaderProgram.getUniformLocation("texture_diffuse"), 0);
->>>>>>> origin/master
 			hmm.getMesh().render();
 			//ShaderProgram.unbind();
 			
