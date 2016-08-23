@@ -110,7 +110,7 @@ public class Mesh {
     }
 
     public void render() {
-        //initRender();
+        initRender();
         glDrawElements(GL_TRIANGLES, getVertexCount(), GL_UNSIGNED_INT, 0);
         endRender();
     }
