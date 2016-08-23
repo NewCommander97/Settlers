@@ -110,7 +110,7 @@ public class Utilities {
 	public static int RandomInt(int start, int end)
 	{
 		Random random = new Random();
-		float r = Math.abs(random.nextInt());
+		int r = Math.abs(random.nextInt());
 		if (r < start)
 			r += start;
 		if (r > end)
