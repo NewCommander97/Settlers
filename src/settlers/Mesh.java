@@ -84,12 +84,12 @@ public class Mesh {
         return vertexCount;
     }
 
-    public void initRender() {
+    private void initRender() {
         Texture texture = material.getTexture();
         if (texture != null) {
         	glColor3f(1.0f, 1.0f, 1.0f);
             glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, texture.getId());
+            texture.bind();
         }
 
         // Draw the mesh

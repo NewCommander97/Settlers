@@ -49,7 +49,7 @@ public class Camera {
     }
 
     public static void acceptInputGrab() {
-        if(Mouse.isButtonDown(Mouse.MOUSE_BUTTON_0)) {
+        if(Mouse.isButtonDown(Mouse.MOUSE_BUTTON_0) && Mouse.isInWindow()) {
             Mouse.setGrabbed(true);
         }
         if(!Mouse.isButtonDown(Mouse.MOUSE_BUTTON_0)) {

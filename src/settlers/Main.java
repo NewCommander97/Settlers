@@ -3,10 +3,12 @@ package settlers;
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.system.MemoryUtil.*;
 
 import java.awt.Toolkit;
 import java.nio.FloatBuffer;
+import java.util.Map;
 
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
@@ -17,8 +19,11 @@ import org.lwjgl.util.glu.*;
 
 public class Main {
 	
-	public static final int WINDOW_HEIGHT = (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-	public static final int WINDOW_WIDTH = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	//public static final int WINDOW_HEIGHT = (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	//public static final int WINDOW_WIDTH = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	
+	public static final int WINDOW_HEIGHT = 720;
+	public static final int WINDOW_WIDTH = 1280;
 	
 	private long window;
 	private TextureManager textureManager = new TextureManager();
@@ -53,14 +58,16 @@ public class Main {
 	private void loop() {
 		
 		try {
-			hmm = new HeightMapMesh(0.0f, 2.0f, "res/Heightmap_small.png", "res/grass.jpg", 1);
+			hmm = new HeightMapMesh(0.0f, 3.0f, "res/Heightmap_small.png", textureManager.getTexture("grass"), 10);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		ShaderProgram shaderProgram = null;
+		ShaderProgram normalShader = null;
         try {
 			shaderProgram = new ShaderProgram(Utilities.readFileAsString("res/shaders/shader.vert"), Utilities.readFileAsString("res/shaders/shader.frag"));
+			normalShader = new ShaderProgram(Utilities.readFileAsString("res/shaders/normal_shader.vert"), Utilities.readFileAsString("res/shaders/normal_shader.frag"));
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -77,8 +84,13 @@ public class Main {
 			Camera.acceptInput(getDelta());
 			Camera.apply();
 			
+<<<<<<< HEAD
 			//shaderProgram.use();
 			//shaderProgram.setUniformi(shaderProgram.getUniformLocation("texture"), 0);
+=======
+			shaderProgram.use();
+			shaderProgram.setUniformi(shaderProgram.getUniformLocation("texture_diffuse"), 0);
+>>>>>>> origin/master
 			hmm.getMesh().render();
 			//ShaderProgram.unbind();
 			
@@ -87,26 +99,12 @@ public class Main {
 				rotate -= 0.4f;
 			if(Keyboard.isKeyDown(Keyboard.KEY_F))
 				rotate += 0.4f;
-			float x, y, z;
-			x = -0.5f;
-			y = 0;
-			z = -3f;
+			float x = -0.5f, y = 0, z = -3f;
 			glTranslatef(x, y, z);
 			glRotatef(rotate, 1, 0, 0);
 			glTranslatef(-x, -y, -z);
 			DrawUtilities.drawPlane(textureManager.getTexture("grass"), x, y, z, 1, 1);
 			glPopMatrix();
-			
-			/*if(Keyboard.isKeyDown(Keyboard.KEY_T))
-				positionZ -= 0.2f;
-			if(Keyboard.isKeyDown(Keyboard.KEY_G))
-				positionZ += 0.2f;
-			glPushMatrix();
-			glTranslatef(0.0f, 0.0f, positionZ);
-			glColor3f(0.1f, 0.4f, 0.9f);
-			Sphere s = new Sphere();
-			s.draw(1.0f, 20, 116);
-			glPopMatrix();*/
 			
 			Mouse.setX(mouseX);
 			Mouse.setY(mouseY);
@@ -120,6 +118,7 @@ public class Main {
 	private void loadTextures() {
 		textureManager.addTexture("grass", "res/grass.jpg");
 		textureManager.addTexture("sand", "res/sand_diffuse.png");
+		textureManager.addTexture("sand_normal", "res/sand_normalmap.png");
 		textureManager.addTexture("test", "res/test.png");
 	}
 	
@@ -222,34 +221,17 @@ public class Main {
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
 
 		// Create the window
-		window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Hello World!", glfwGetPrimaryMonitor(), NULL);
+		//window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Hello World!", glfwGetPrimaryMonitor(), NULL);
+		window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Hello World!", NULL, NULL);
 		if ( window == NULL )
 			throw new RuntimeException("Failed to create the GLFW window");
 		
 		// Setup a key callback. It will be called every time a key is pressed, repeated or released.
 		GLFWKeyCallback keyboard;
 		glfwSetKeyCallback(window, keyboard = new Keyboard());
-		/*glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-			if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
-				glfwSetWindowShouldClose(window, true); // We will detect this in our rendering loop
-			if ( key == GLFW_KEY_W && action == GLFW_PRESS)
-				wdown = true;
-			if ( key == GLFW_KEY_W && action == GLFW_RELEASE)
-				wdown = false;
-			if ( key == GLFW_KEY_S && action == GLFW_PRESS)
-				sdown = true;
-			if ( key == GLFW_KEY_S && action == GLFW_RELEASE)
-				sdown = false;
-		});*/
-		
 		
 		GLFWMouseButtonCallback mouse;
 		glfwSetMouseButtonCallback(window, mouse = new Mouse());
-		/*glfwSetMouseButtonCallback(window, (window, button, action, mods) -> {
-			if(button == GLFW_MOUSE_BUTTON_1 && action == GLFW_RELEASE) {
-				System.out.println("Linke Maustaste losgelassen");
-			}
-		});*/
 		
 		glfwSetCursorPosCallback(window, (window, xpos, ypos) -> {
 			mouseX = xpos;
@@ -258,6 +240,13 @@ public class Main {
 		
 		glfwSetScrollCallback(window, (window, xoffset, yoffset) -> {
 			
+		});
+		
+		glfwSetCursorEnterCallback(window, (window, entered) -> {
+			if(entered)
+				Mouse.setIsInWindow(true);
+			else
+				Mouse.setIsInWindow(false);
 		});
 
 		// Get the resolution of the primary monitor

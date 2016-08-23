@@ -1,6 +1,7 @@
 package settlers;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL13.*;
 
 import java.nio.ByteBuffer;
 
@@ -36,6 +37,7 @@ public class Texture {
 	}
 	
 	public void bind() {
+		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, textureID);
 	}
 	
