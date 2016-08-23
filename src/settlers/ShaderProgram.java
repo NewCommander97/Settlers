@@ -56,11 +56,9 @@ public class ShaderProgram {
         if (attributes != null)
             for (Entry<Integer, String> e : attributes.entrySet())
                 glBindAttribLocation(program, e.getKey(), e.getValue());
-
+        
         //link our program
         glLinkProgram(program);
-        
-        glValidateProgram(program);
 
         //grab our info log
         String infoLog = glGetProgramInfoLog(program, glGetProgrami(program, GL_INFO_LOG_LENGTH));

@@ -40,8 +40,8 @@ public class HeightMapMesh {
                 positions.add(STARTZ + row * incz); //z
 
                 // Set texture coordinates
-                textCoords.add((float) textInc * (float) col + 1 / (float) width);
-                textCoords.add((float) textInc * (float) row + 1 / (float) height);
+                textCoords.add((float) textInc * (float) col / ((float) width - 1));
+                textCoords.add((float) textInc * (float) row / ((float) height - 1));
 
                 // Create indices
                 if (col < width - 1 && row < height - 1) {

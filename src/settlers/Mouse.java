@@ -20,6 +20,7 @@ public class Mouse extends GLFWMouseButtonCallback {
 	private static boolean mouseButton_5_Down = false;
 	
 	private static boolean grabbed = false;
+	private static boolean isInWindow = true;
 	
 	private static double posX = 0;
 	private static double posY = 0;
@@ -46,6 +47,14 @@ public class Mouse extends GLFWMouseButtonCallback {
 	
 	public static boolean isGrabbed() {
 		return grabbed;
+	}
+	
+	public static void setIsInWindow(boolean b) {
+		isInWindow = b;
+	}
+	
+	public static boolean isInWindow() {
+		return isInWindow;
 	}
 	
 	public static void setGrabbed(boolean b) {

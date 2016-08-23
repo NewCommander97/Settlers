@@ -3,10 +3,12 @@ package settlers;
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.system.MemoryUtil.*;
 
 import java.awt.Toolkit;
 import java.nio.FloatBuffer;
+import java.util.Map;
 
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
@@ -17,8 +19,11 @@ import org.lwjgl.util.glu.*;
 
 public class Main {
 	
-	public static final int WINDOW_HEIGHT = (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-	public static final int WINDOW_WIDTH = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	//public static final int WINDOW_HEIGHT = (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	//public static final int WINDOW_WIDTH = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	
+	public static final int WINDOW_HEIGHT = 720;
+	public static final int WINDOW_WIDTH = 1280;
 	
 	private long window;
 	private TextureManager textureManager = new TextureManager();
@@ -53,7 +58,7 @@ public class Main {
 	private void loop() {
 		
 		try {
-			hmm = new HeightMapMesh(0.0f, 2.0f, "res/Heightmap_small.png", textureManager.getTexture("grass"), 1);
+			hmm = new HeightMapMesh(0.0f, 3.0f, "res/Heightmap_small.png", textureManager.getTexture("grass"), 10);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -89,14 +94,11 @@ public class Main {
 				rotate -= 0.4f;
 			if(Keyboard.isKeyDown(Keyboard.KEY_F))
 				rotate += 0.4f;
-			float x, y, z;
-			x = -0.5f;
-			y = 0;
-			z = -3f;
+			float x = -0.5f, y = 0, z = -3f;
 			glTranslatef(x, y, z);
 			glRotatef(rotate, 1, 0, 0);
 			glTranslatef(-x, -y, -z);
-			DrawUtilities.drawPlane(textureManager.getTexture("sand"), x, y, z, 1, 1);
+			DrawUtilities.drawPlane(textureManager.getTexture("grass"), x, y, z, 1, 1);
 			glPopMatrix();
 			
 			Mouse.setX(mouseX);
@@ -214,34 +216,17 @@ public class Main {
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
 
 		// Create the window
-		window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Hello World!", glfwGetPrimaryMonitor(), NULL);
+		//window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Hello World!", glfwGetPrimaryMonitor(), NULL);
+		window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Hello World!", NULL, NULL);
 		if ( window == NULL )
 			throw new RuntimeException("Failed to create the GLFW window");
 		
 		// Setup a key callback. It will be called every time a key is pressed, repeated or released.
 		GLFWKeyCallback keyboard;
 		glfwSetKeyCallback(window, keyboard = new Keyboard());
-		/*glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-			if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
-				glfwSetWindowShouldClose(window, true); // We will detect this in our rendering loop
-			if ( key == GLFW_KEY_W && action == GLFW_PRESS)
-				wdown = true;
-			if ( key == GLFW_KEY_W && action == GLFW_RELEASE)
-				wdown = false;
-			if ( key == GLFW_KEY_S && action == GLFW_PRESS)
-				sdown = true;
-			if ( key == GLFW_KEY_S && action == GLFW_RELEASE)
-				sdown = false;
-		});*/
-		
 		
 		GLFWMouseButtonCallback mouse;
 		glfwSetMouseButtonCallback(window, mouse = new Mouse());
-		/*glfwSetMouseButtonCallback(window, (window, button, action, mods) -> {
-			if(button == GLFW_MOUSE_BUTTON_1 && action == GLFW_RELEASE) {
-				System.out.println("Linke Maustaste losgelassen");
-			}
-		});*/
 		
 		glfwSetCursorPosCallback(window, (window, xpos, ypos) -> {
 			mouseX = xpos;
@@ -250,6 +235,13 @@ public class Main {
 		
 		glfwSetScrollCallback(window, (window, xoffset, yoffset) -> {
 			
+		});
+		
+		glfwSetCursorEnterCallback(window, (window, entered) -> {
+			if(entered)
+				Mouse.setIsInWindow(true);
+			else
+				Mouse.setIsInWindow(false);
 		});
 
 		// Get the resolution of the primary monitor

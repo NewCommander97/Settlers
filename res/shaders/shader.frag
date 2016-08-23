@@ -1,6 +1,6 @@
 uniform sampler2D texture_diffuse;
-varying vec2 texCoord;
-varying vec4 color;
+in vec2 texCoord;
+in vec4 color;
 
 void main() {
 	vec4 texcolor = texture2D(texture_diffuse, texCoord);
