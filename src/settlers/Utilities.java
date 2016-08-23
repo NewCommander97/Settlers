@@ -106,4 +106,15 @@ public class Utilities {
 			r = r % end;
 		return r;
 	}
+	
+	public static float RandomInt(int start, int end)
+	{
+		Random random = new Random();
+		float r = Math.abs(random.nextInt());
+		if (r < start)
+			r += start;
+		if (r > end)
+			r = r % end;
+		return r;
+	}
 }
