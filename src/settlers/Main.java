@@ -77,11 +77,7 @@ public class Main {
 			Camera.acceptInput(getDelta());
 			Camera.apply();
 			
-			hmm.getMesh().initRender();
-			shaderProgram.use();
-			shaderProgram.setUniformi(shaderProgram.getUniformLocation("texture"), 0);
 			hmm.getMesh().render();
-			ShaderProgram.unbind();
 			
 			glPushMatrix();
 			if(Keyboard.isKeyDown(Keyboard.KEY_R))
