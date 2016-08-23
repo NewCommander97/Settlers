@@ -58,7 +58,7 @@ public class Main {
 	private void loop() {
 		
 		try {
-			hmm = new HeightMapMesh(0.0f, 3.0f, "res/Heightmap_small.png", textureManager.getTexture("grass"), 10);
+			hmm = new HeightMapMesh(0.0f, 3.0f, "res/Heightmap_small.png", textureManager.getTexture("sand"), 10);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -87,7 +87,7 @@ public class Main {
 			shaderProgram.use();
 			shaderProgram.setUniformi(shaderProgram.getUniformLocation("texture_diffuse"), 0);
 			hmm.getMesh().render();
-			//ShaderProgram.unbind();
+			ShaderProgram.unbind();
 			
 			glPushMatrix();
 			if(Keyboard.isKeyDown(Keyboard.KEY_R))
@@ -154,7 +154,7 @@ public class Main {
 		float fovy = 45.0f;
 		float aspect = (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT;
 		float zNear = 0.1f;
-		float zFar = 100.0f;
+		float zFar = 200.0f;
 		float fH = (float) (Math.tan( fovy / 360.0f * 3.14159f ) * zNear);
 		float fW = fH * aspect;
 		glFrustum(-fW, fW, -fH, fH, zNear, zFar);
