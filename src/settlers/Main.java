@@ -3,19 +3,14 @@ package settlers;
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.system.MemoryUtil.*;
 
 import java.awt.Toolkit;
 import java.nio.FloatBuffer;
-import java.util.Map;
 
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
-import org.lwjgl.util.Color;
-import org.lwjgl.util.Point;
-import org.lwjgl.util.glu.*;
 
 public class Main {
 	
@@ -31,8 +26,8 @@ public class Main {
 	private float rotate = -45.0f;
 	private float lastFrame = 0;
 	private double mouseX = 0, mouseY = 0;
-	
-	private HeightMapMesh hmm;
+	private int fps = 0;
+	private long lastFPS = System.nanoTime() / 1000000000;
 	
 	public static void main(String[] args) {
 		new Main().run();
@@ -57,8 +52,10 @@ public class Main {
 	
 	private void loop() {
 		
+		HeightMapMesh hmm = null;
+		
 		try {
-			hmm = new HeightMapMesh(0.0f, 3.0f, "res/Heightmap_small.png", textureManager.getTexture("grass"), 10);
+			hmm = new HeightMapMesh(0.0f, 3.0f, "res/Heightmap_small.png", textureManager.getTexture("sand"), 10);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -83,7 +80,8 @@ public class Main {
 			
 			glLoadIdentity();
 			
-			Camera.acceptInput(getDelta());
+			float delta = getDelta();
+			Camera.acceptInput(delta);
 			Camera.apply();
 			
 			shaderProgram.use();
@@ -92,7 +90,7 @@ public class Main {
 			ShaderProgram.unbind();
 			
 			textureManager.getTexture("mine").bind();
-			m.render(10, -2.1f, 10, 0.5f);
+			m.render(10, -2.1f, 10, 0.5f, getTime());
 			glBindTexture(GL_TEXTURE_2D, 0);
 			
 			glPushMatrix();
@@ -109,6 +107,14 @@ public class Main {
 			
 			Mouse.setX(mouseX);
 			Mouse.setY(mouseY);
+			
+			//FPS Counter
+			if(System.nanoTime() / 1000000000 - lastFPS >= 1) {
+				System.out.println(fps);
+				lastFPS = System.nanoTime() / 1000000000;
+				fps = 0;
+			}
+			fps++;
 			
 			glfwSwapBuffers(window); // swap the color buffers
 			

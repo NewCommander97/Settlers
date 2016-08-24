@@ -17,10 +17,11 @@ public class Model {
 		
 	}
 	
-	public void render(float x, float y, float z, float s) {
+	public void render(float x, float y, float z, float s, float r) {
 		glPushMatrix();
 		glTranslatef(x, y, z);
 		glScalef(s, s, s);
+		glRotatef(r, 0, 1, 0);
 		glBegin(GL_QUADS);
 			for(Face face : faces) {
 				Vector3f n1 = normals.get((int) face.normalIndices.w - 1);
@@ -56,6 +57,6 @@ public class Model {
 	}
 	
 	public void render() {
-		render(0, 0, 0, 1);
+		render(0, 0, 0, 1, 0);
 	}
 }
