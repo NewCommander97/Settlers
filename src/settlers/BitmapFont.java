@@ -100,6 +100,7 @@ public class BitmapFont {
         }
         
         glEnd();
+        glBindTexture(GL_TEXTURE_2D, 0);
     }
     
     //Conversions
