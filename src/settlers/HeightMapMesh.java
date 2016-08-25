@@ -70,6 +70,80 @@ public class HeightMapMesh {
         mesh.setMaterial(material);
 	}
 	
+	public HeightMapMesh()
+	{
+		
+	}
+	
+	public void randomize(int width, int height, float minY, float maxY, Texture texture, int textInc) throws Exception {
+		
+		this.minY = minY;
+		this.maxY = maxY;
+
+		float incx = 50 * getXLength() / (width - 1);
+        float incz = 50 * getZLength() / (height - 1);
+        
+        int[] mountainStart = new int[2];
+        mountainStart[0] = Utilities.RandomInt(0, width-1);
+        mountainStart[1] = Utilities.RandomInt(0, height-1);
+        System.out.println(mountainStart[0]);
+        System.out.println(mountainStart[1]);
+        
+        int[] mountainEnd = new int[2];
+        mountainEnd[0] = mountainStart[0] + Utilities.RandomInt(0,30);
+        mountainEnd[1] = mountainStart[1] + Utilities.RandomInt(0,30);
+        System.out.println(mountainEnd[0]);
+        System.out.println(mountainEnd[1]);
+        
+        List<Float> positions = new ArrayList();
+        List<Float> textCoords = new ArrayList();
+        List<Integer> indices = new ArrayList();
+        
+        //One plane
+        for (int row = 0; row < height; row++) {
+            for (int col = 0; col < width; col++) {
+                // Create vertex for current position
+                positions.add(STARTX + col * incx); // x
+                if (row > 1 && col > 1)
+                	positions.add(positions.get((col * row) -3) + Utilities.RandomFloat());
+                positions.add(Utilities.RandomFloat(0f, 1f)); //y
+                positions.add(STARTZ + row * incz); //z
+            }
+        }
+
+        for (int row = 0; row < height; row++) {
+            for (int col = 0; col < width; col++) {
+                // Set texture coordinates
+                textCoords.add((float) textInc * (float) col / ((float) width - 1));
+                textCoords.add((float) textInc * (float) row / ((float) height - 1));
+
+                // Create indices
+                if (col < width - 1 && row < height - 1) {
+                    int leftTop = row * width + col;
+                    int leftBottom = (row + 1) * width + col;
+                    int rightBottom = (row + 1) * width + col + 1;
+                    int rightTop = row * width + col + 1;
+
+                    indices.add(leftTop);
+                    indices.add(leftBottom);
+                    indices.add(rightTop);
+
+                    indices.add(rightTop);
+                    indices.add(leftBottom);
+                    indices.add(rightBottom);
+                }
+            }
+        }
+        float[] posArr = Utilities.listToArray(positions);
+        //int[] indicesArr = indices.stream().mapToInt(i -> i).toArray();
+        int[] indicesArr = Utilities.intListToArray(indices);
+        float[] textCoordsArr = Utilities.listToArray(textCoords);
+        float[] normalsArr = calcNormals(posArr, width, height);
+        this.mesh = new Mesh(posArr, textCoordsArr, normalsArr, indicesArr);
+        Material material = new Material(texture);
+        mesh.setMaterial(material);
+	}
+	
 	public Mesh getMesh() {
         return mesh;
     }
@@ -161,6 +235,11 @@ public class HeightMapMesh {
             result = this.minY + Math.abs(this.maxY - this.minY) * ((float) rgb / (float) MAX_COLOUR);
         }
         return result;
+    }
+    
+    private float getHeight(float value) {
+    	
+    	return Math.abs(this.maxY - this.minY) * value;
     }
 
 }

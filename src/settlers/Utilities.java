@@ -107,6 +107,11 @@ public class Utilities {
 		return r;
 	}
 	
+	public static float RandomFloat()
+	{
+		return (float)Math.random();
+	}
+	
 	public static int RandomInt(int start, int end)
 	{
 		Random random = new Random();
