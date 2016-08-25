@@ -12,9 +12,10 @@ public class Model {
 	public List<Vector2f> texCoods = new ArrayList<Vector2f>();
 	public List<Vector3f> normals = new ArrayList<Vector3f>();
 	public List<Face> faces = new ArrayList<Face>();
+	public Texture texture;
 	
-	public Model() {
-		
+	public Model(Texture texture) {
+		this.texture = texture;
 	}
 	
 	public void render(float x, float y, float z, float s, float r) {
@@ -22,6 +23,7 @@ public class Model {
 		glTranslatef(x, y, z);
 		glScalef(s, s, s);
 		glRotatef(r, 0, 1, 0);
+		texture.bind();
 		glBegin(GL_QUADS);
 			for(Face face : faces) {
 				Vector3f n1 = normals.get((int) face.normalIndices.w - 1);
@@ -53,6 +55,7 @@ public class Model {
 				glVertex3f(v4.x, v4.y, v4.z);
 			}
 		glEnd();
+		texture.unbind();
 		glPopMatrix();
 	}
 	

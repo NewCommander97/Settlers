@@ -6,11 +6,9 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 import java.awt.Toolkit;
-import java.nio.FloatBuffer;
 
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
-import org.lwjgl.opengl.*;
 
 public class Main {
 	
@@ -22,7 +20,6 @@ public class Main {
 	
 	private long window;
 	private TextureManager textureManager = new TextureManager();
-	private float positionZ = -4.0f;
 	private float rotate = -45.0f;
 	private float lastFrame = 0;
 	private double mouseX = 0, mouseY = 0;
@@ -38,7 +35,7 @@ public class Main {
 
 		try {
 			initGLFW();
-			initOpenGL3D();
+			OpenGL.init();
 			loadTextures();
 			loop();
 			
@@ -71,14 +68,14 @@ public class Main {
 			e.printStackTrace();
 		}
         
-        Model m = ModelLoader.loadModel("res/Mine_UV.obj");
+        Model m = ModelLoader.loadModel("res/Mine_UV.obj", textureManager.getTexture("mine"));
 		
 		while ( !glfwWindowShouldClose(window) ) {
 			if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
 				glfwSetWindowShouldClose(window, true);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 			
-			glLoadIdentity();
+			OpenGL.make3D();
 			
 			float delta = getDelta();
 			Camera.acceptInput(delta);
@@ -89,9 +86,7 @@ public class Main {
 			hmm.getMesh().render();
 			ShaderProgram.unbind();
 			
-			textureManager.getTexture("mine").bind();
 			m.render(10, -2.1f, 10, 0.5f, getTime());
-			glBindTexture(GL_TEXTURE_2D, 0);
 			
 			glPushMatrix();
 			if(Keyboard.isKeyDown(Keyboard.KEY_R))
@@ -107,6 +102,15 @@ public class Main {
 			
 			Mouse.setX(mouseX);
 			Mouse.setY(mouseY);
+			
+			OpenGL.make2D();
+			glColor3f(0.7f, 0, 0);
+			glBegin(GL_QUADS);
+				glVertex2f(0, WINDOW_HEIGHT - 100);
+				glVertex2f(0, WINDOW_HEIGHT);
+				glVertex2f(WINDOW_WIDTH, WINDOW_HEIGHT);
+				glVertex2f(WINDOW_WIDTH, WINDOW_HEIGHT - 100);
+			glEnd();
 			
 			//FPS Counter
 			if(System.nanoTime() / 1000000000 - lastFPS >= 1) {
@@ -128,94 +132,6 @@ public class Main {
 		textureManager.addTexture("sand_normal", "res/sand_normalmap.png");
 		textureManager.addTexture("test", "res/test.png");
 		textureManager.addTexture("mine", "res/Mine_diffuse.png");
-	}
-	
-	private void initOpenGL2D() {
-		GL.createCapabilities();
-		
-		glOrtho(0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 1, -1);
-		glEnable(GL_LINE_SMOOTH);
-		glEnable(GL_TEXTURE_2D);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-		glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		glMatrixMode(GL_MODELVIEW);
-		
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	}
-	
-	private FloatBuffer matSpecular;
-	private FloatBuffer lightPosition;
-	private FloatBuffer whiteLight; 
-	private FloatBuffer lModelAmbient;
-	
-	private void initOpenGL3D() {
-		GL.createCapabilities();
-		System.out.println(glGetString(GL_VERSION));
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f); // sets background to grey
-		glClearDepth(1.0f); // clear depth buffer
-		glEnable(GL_DEPTH_TEST); // Enables depth testing
-		glDepthFunc(GL_LEQUAL); // sets the type of test to use for depth testing
-		glMatrixMode(GL_PROJECTION); // sets the matrix mode to project
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glEnable(GL_TEXTURE_2D);
-		
-		float fovy = 45.0f;
-		float aspect = (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT;
-		float zNear = 0.1f;
-		float zFar = 200.0f;
-		float fH = (float) (Math.tan( fovy / 360.0f * 3.14159f ) * zNear);
-		float fW = fH * aspect;
-		glFrustum(-fW, fW, -fH, fH, zNear, zFar);
-		
-		glMatrixMode(GL_MODELVIEW);
-		
-		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-		
-		//----------- Variables & method calls added for Lighting Test -----------//
-		initLightArrays();
-		glShadeModel(GL_SMOOTH);
-		glMaterialfv(GL_FRONT, GL_SPECULAR, matSpecular);				// sets specular material color
-		glMaterialf(GL_FRONT, GL_SHININESS, 50.0f);					// sets shininess
-		
-		glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);				// sets light position
-		glLightfv(GL_LIGHT0, GL_SPECULAR, whiteLight);				// sets specular light to white
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, whiteLight);					// sets diffuse light to white
-		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lModelAmbient);		// global ambient light
-		
-		glEnable(GL_LIGHTING);										// enables lighting
-		glEnable(GL_LIGHT0);										// enables light0
-		
-		glEnable(GL_COLOR_MATERIAL);								// enables opengl to use glColor3f to define material color
-		glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);			// tell opengl glColor3f effects the ambient and diffuse properties of material
-		//----------- END: Variables & method calls added for Lighting Test -----------//
-		
-		Camera.create();
-		
-		
-		//Wireframe Modus
-		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	    //glDisable(GL_TEXTURE_2D);
-	}
-	
-
-	//------- Added for Lighting Test----------//
-	private void initLightArrays() {
-		matSpecular = BufferUtils.createFloatBuffer(4);
-		matSpecular.put(1.0f).put(1.0f).put(1.0f).put(1.0f).flip();
-		
-		lightPosition = BufferUtils.createFloatBuffer(4);
-		lightPosition.put(1.0f).put(1.0f).put(1.0f).put(0.0f).flip();
-		
-		whiteLight = BufferUtils.createFloatBuffer(4);
-		whiteLight.put(1.0f).put(1.0f).put(1.0f).put(1.0f).flip();
-		
-		lModelAmbient = BufferUtils.createFloatBuffer(4);
-		lModelAmbient.put(0.5f).put(0.5f).put(0.5f).put(1.0f).flip();
 	}
 	
 	private void initGLFW() {

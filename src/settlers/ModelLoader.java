@@ -11,7 +11,7 @@ import org.lwjgl.util.vector.Vector4f;
 
 public class ModelLoader {
 	
-	public static Model loadModel(String path) {
+	public static Model loadModel(String path, Texture texture) {
 		BufferedReader reader = null;
 		try {
 			reader = new BufferedReader(new FileReader(new File(path)));
@@ -19,7 +19,7 @@ public class ModelLoader {
 			e.printStackTrace();
 		}
 		if(reader != null) {
-			Model m = new Model();
+			Model m = new Model(texture);
 			String line;
 			try {
 				while((line = reader.readLine()) != null) {
