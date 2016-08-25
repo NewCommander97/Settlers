@@ -20,10 +20,12 @@ public class Main {
 	
 	private long window;
 	private TextureManager textureManager = new TextureManager();
+	private FontManager fontManager = new FontManager();
 	private float rotate = -45.0f;
 	private float lastFrame = 0;
 	private double mouseX = 0, mouseY = 0;
 	private int fps = 0;
+	private int lfps = 0;
 	private long lastFPS = System.nanoTime() / 1000000000;
 	
 	public static void main(String[] args) {
@@ -69,6 +71,7 @@ public class Main {
 		}
         
         Model m = ModelLoader.loadModel("res/Mine_UV.obj", textureManager.getTexture("mine"));
+        fontManager.add("res/fonts/OpenSans-Regular.ttf", 12f, "OpenSans");
 		
 		while ( !glfwWindowShouldClose(window) ) {
 			if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
@@ -104,6 +107,7 @@ public class Main {
 			Mouse.setY(mouseY);
 			
 			OpenGL.make2D();
+			fontManager.get("OpenSans").drawText(lfps + " FPS", 5, WINDOW_HEIGHT - 20);
 			glColor3f(0.7f, 0, 0);
 			glBegin(GL_QUADS);
 				glVertex2f(0, WINDOW_HEIGHT - 100);
@@ -115,6 +119,7 @@ public class Main {
 			//FPS Counter
 			if(System.nanoTime() / 1000000000 - lastFPS >= 1) {
 				System.out.println(fps);
+				lfps = fps;
 				lastFPS = System.nanoTime() / 1000000000;
 				fps = 0;
 			}
