@@ -54,7 +54,9 @@ public class Main {
 		HeightMapMesh hmm = null;
 		
 		try {
-			hmm = new HeightMapMesh(0.0f, 3.0f, "res/Heightmap_small.png", textureManager.getTexture("sand"), 10);
+			//hmm = new HeightMapMesh(0.0f, 3.0f, "res/Heightmap_small.png", textureManager.getTexture("sand"), 10);
+			hmm = new HeightMapMesh();
+			hmm.randomize(32, 32, 0f, 10f, textureManager.getTexture("sand"), 10);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -107,14 +109,15 @@ public class Main {
 			Mouse.setY(mouseY);
 			
 			OpenGL.make2D();
-			fontManager.get("OpenSans").drawText(lfps + " FPS", 5, WINDOW_HEIGHT - 20);
-			glColor3f(0.7f, 0, 0);
+			glColor3f(1f, 0, 0);
 			glBegin(GL_QUADS);
-				glVertex2f(0, WINDOW_HEIGHT - 100);
+				glVertex2f(0, WINDOW_HEIGHT - 23);
 				glVertex2f(0, WINDOW_HEIGHT);
 				glVertex2f(WINDOW_WIDTH, WINDOW_HEIGHT);
-				glVertex2f(WINDOW_WIDTH, WINDOW_HEIGHT - 100);
+				glVertex2f(WINDOW_WIDTH, WINDOW_HEIGHT - 23);
 			glEnd();
+			glColor3f(1f, 1f, 1f);
+			fontManager.get("OpenSans").drawText(lfps + " FPS", 5, WINDOW_HEIGHT - 20);
 			
 			//FPS Counter
 			if(System.nanoTime() / 1000000000 - lastFPS >= 1) {

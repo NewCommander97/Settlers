@@ -79,21 +79,11 @@ public class HeightMapMesh {
 		
 		this.minY = minY;
 		this.maxY = maxY;
+		
+		SimplexValueSplineNoise svsn = new SimplexValueSplineNoise();
 
 		float incx = 50 * getXLength() / (width - 1);
         float incz = 50 * getZLength() / (height - 1);
-        
-        int[] mountainStart = new int[2];
-        mountainStart[0] = Utilities.RandomInt(0, width-1);
-        mountainStart[1] = Utilities.RandomInt(0, height-1);
-        System.out.println(mountainStart[0]);
-        System.out.println(mountainStart[1]);
-        
-        int[] mountainEnd = new int[2];
-        mountainEnd[0] = mountainStart[0] + Utilities.RandomInt(0,30);
-        mountainEnd[1] = mountainStart[1] + Utilities.RandomInt(0,30);
-        System.out.println(mountainEnd[0]);
-        System.out.println(mountainEnd[1]);
         
         List<Float> positions = new ArrayList();
         List<Float> textCoords = new ArrayList();
@@ -104,9 +94,8 @@ public class HeightMapMesh {
             for (int col = 0; col < width; col++) {
                 // Create vertex for current position
                 positions.add(STARTX + col * incx); // x
-                if (row > 1 && col > 1)
-                	positions.add(positions.get((col * row) -3) + Utilities.RandomFloat());
-                positions.add(Utilities.RandomFloat(0f, 1f)); //y
+                positions.add((float)svsn.eval(row, col) / 2);
+                System.out.println((float)svsn.eval(row, col));
                 positions.add(STARTZ + row * incz); //z
             }
         }
@@ -237,9 +226,9 @@ public class HeightMapMesh {
         return result;
     }
     
-    private float getHeight(float value) {
-    	
-    	return Math.abs(this.maxY - this.minY) * value;
+    private float getHeight(float y) {
+        float result = 0;
+        result = this.minY + Math.abs(this.maxY - this.minY) * (float) y;
+        return result;
     }
-
 }
