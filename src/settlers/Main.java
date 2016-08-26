@@ -72,7 +72,7 @@ public class Main {
 			e.printStackTrace();
 		}
         
-        Model m = ModelLoader.loadModel("res/Mine_UV.obj", textureManager.getTexture("mine"));
+        Model mine = ModelLoader.loadModel("res/Mine_UV.obj", textureManager.getTexture("mine"));
         fontManager.add("res/fonts/OpenSans-Regular.ttf", 12f, "OpenSans");
 		
 		while ( !glfwWindowShouldClose(window) ) {
@@ -91,7 +91,7 @@ public class Main {
 			hmm.getMesh().render();
 			ShaderProgram.unbind();
 			
-			m.render(10, -2.1f, 10, 0.5f, getTime());
+			mine.render(10, -2.1f, 10, 0.5f, getTime());
 			
 			glPushMatrix();
 			if(Keyboard.isKeyDown(Keyboard.KEY_R))
@@ -109,6 +109,7 @@ public class Main {
 			Mouse.setY(mouseY);
 			
 			OpenGL.make2D();
+			glColor3f(0.7f, 0, 0);
 			glColor3f(1f, 0, 0);
 			glBegin(GL_QUADS);
 				glVertex2f(0, WINDOW_HEIGHT - 23);

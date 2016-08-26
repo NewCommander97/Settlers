@@ -7,7 +7,6 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import org.lwjgl.util.vector.Vector2f;
-import org.lwjgl.util.vector.Vector4f;
 
 public class ModelLoader {
 	
@@ -38,18 +37,15 @@ public class ModelLoader {
 						float z = Float.valueOf(line.split(" ")[3]);
 						m.normals.add(new Vector3f(x, y, z));
 					} else if(line.startsWith("f ")) {
-						Vector4f vertexIndices = new Vector4f(Float.valueOf(line.split(" ")[1].split("/")[0]),
+						Vector3f vertexIndices = new Vector3f(Float.valueOf(line.split(" ")[1].split("/")[0]),
 								Float.valueOf(line.split(" ")[2].split("/")[0]),
-								Float.valueOf(line.split(" ")[3].split("/")[0]),
-								Float.valueOf(line.split(" ")[4].split("/")[0]));
-						Vector4f texCoodIndices = new Vector4f(Float.valueOf(line.split(" ")[1].split("/")[1]),
+								Float.valueOf(line.split(" ")[3].split("/")[0]));
+						Vector3f texCoodIndices = new Vector3f(Float.valueOf(line.split(" ")[1].split("/")[1]),
 								Float.valueOf(line.split(" ")[2].split("/")[1]),
-								Float.valueOf(line.split(" ")[3].split("/")[1]),
-								Float.valueOf(line.split(" ")[4].split("/")[1]));
-						Vector4f normalIndices = new Vector4f(Float.valueOf(line.split(" ")[1].split("/")[2]),
+								Float.valueOf(line.split(" ")[3].split("/")[1]));
+						Vector3f normalIndices = new Vector3f(Float.valueOf(line.split(" ")[1].split("/")[2]),
 								Float.valueOf(line.split(" ")[2].split("/")[2]),
-								Float.valueOf(line.split(" ")[3].split("/")[2]),
-								Float.valueOf(line.split(" ")[4].split("/")[2]));
+								Float.valueOf(line.split(" ")[3].split("/")[2]));
 						m.faces.add(new Face(vertexIndices, texCoodIndices, normalIndices));
 					}
 				}
