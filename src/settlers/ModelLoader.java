@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.lwjgl.util.vector.Vector2f;
 
@@ -18,7 +20,10 @@ public class ModelLoader {
 			e.printStackTrace();
 		}
 		if(reader != null) {
-			Model m = new Model(texture);
+			List<Vector3f> vertices = new ArrayList<Vector3f>();
+			List<Vector2f> texCoods = new ArrayList<Vector2f>();
+			List<Vector3f> normals = new ArrayList<Vector3f>();
+			List<Face> faces = new ArrayList<Face>();
 			String line;
 			try {
 				while((line = reader.readLine()) != null) {
@@ -26,16 +31,16 @@ public class ModelLoader {
 						float x = Float.valueOf(line.split(" ")[1]);
 						float y = Float.valueOf(line.split(" ")[2]);
 						float z = Float.valueOf(line.split(" ")[3]);
-						m.vertices.add(new Vector3f(x, y, z));
+						vertices.add(new Vector3f(x, y, z));
 					} else if(line.startsWith("vt ")) {
 						float x = Float.valueOf(line.split(" ")[1]);
 						float y = Float.valueOf(line.split(" ")[2]);
-						m.texCoods.add(new Vector2f(x, y));
+						texCoods.add(new Vector2f(x, y));
 					} else if(line.startsWith("vn ")) {
 						float x = Float.valueOf(line.split(" ")[1]);
 						float y = Float.valueOf(line.split(" ")[2]);
 						float z = Float.valueOf(line.split(" ")[3]);
-						m.normals.add(new Vector3f(x, y, z));
+						normals.add(new Vector3f(x, y, z));
 					} else if(line.startsWith("f ")) {
 						Vector3f vertexIndices = new Vector3f(Float.valueOf(line.split(" ")[1].split("/")[0]),
 								Float.valueOf(line.split(" ")[2].split("/")[0]),
@@ -46,11 +51,11 @@ public class ModelLoader {
 						Vector3f normalIndices = new Vector3f(Float.valueOf(line.split(" ")[1].split("/")[2]),
 								Float.valueOf(line.split(" ")[2].split("/")[2]),
 								Float.valueOf(line.split(" ")[3].split("/")[2]));
-						m.faces.add(new Face(vertexIndices, texCoodIndices, normalIndices));
+						faces.add(new Face(vertexIndices, texCoodIndices, normalIndices));
 					}
 				}
 				reader.close();
-				return m;
+				return new Model(vertices, texCoods, normals, faces, texture);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

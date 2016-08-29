@@ -89,9 +89,9 @@ public class Main {
 			shaderProgram.use();
 			shaderProgram.setUniformi(shaderProgram.getUniformLocation("texture_diffuse"), 0);
 			hmm.getMesh().render();
-			ShaderProgram.unbind();
 			
-			mine.render(10, -2.1f, 10, 0.5f, getTime());
+			mine.render(10, 0.4f, 10, 0.5f, 0);
+			ShaderProgram.unbind();
 			
 			glPushMatrix();
 			if(Keyboard.isKeyDown(Keyboard.KEY_R))
@@ -122,7 +122,7 @@ public class Main {
 			
 			//FPS Counter
 			if(System.nanoTime() / 1000000000 - lastFPS >= 1) {
-				System.out.println(fps);
+				//System.out.println(fps);
 				lfps = fps;
 				lastFPS = System.nanoTime() / 1000000000;
 				fps = 0;
