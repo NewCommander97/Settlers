@@ -80,9 +80,10 @@ public class HeightMapMesh {
 		this.minY = minY;
 		this.maxY = maxY;
 		
-		SimplexValueSplineNoise svsn1 = new SimplexValueSplineNoise((long)Utilities.RandomFloat(0, 100));
-		SimplexValueSplineNoise svsn2 = new SimplexValueSplineNoise((long)Utilities.RandomFloat(0, 100));
-		SimplexValueSplineNoise svsn3 = new SimplexValueSplineNoise((long)Utilities.RandomFloat(0, 100));
+		//SimplexValueSplineNoise svsn1 = new SimplexValueSplineNoise((long)Utilities.RandomFloat(0, 100));
+		//SimplexValueSplineNoise svsn2 = new SimplexValueSplineNoise((long)Utilities.RandomFloat(0, 100));
+		//SimplexValueSplineNoise svsn3 = new SimplexValueSplineNoise((long)Utilities.RandomFloat(0, 100));
+		float[][] map = ValueNoise.generate();
 
 		float incx = 50 * getXLength() / (width - 1);
         float incz = 50 * getZLength() / (height - 1);
@@ -96,9 +97,9 @@ public class HeightMapMesh {
             for (int col = 0; col < width; col++) {
                 // Create vertex for current position
                 positions.add(STARTX + col * incx); // x
-                float y = (float)svsn1.eval(row, col) + (float)svsn2.eval(row, col) + (float)svsn3.eval(row, col);
-                positions.add(y/6); // x
-                System.out.println(y/6);
+                //float y = (float)svsn1.eval(row, col) + (float)svsn2.eval(row, col) + (float)svsn3.eval(row, col);
+                float y = map[row][col];
+                positions.add(y); // y
                 positions.add(STARTZ + row * incz); //z
             }
         }
