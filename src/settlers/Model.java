@@ -38,6 +38,7 @@ public class Model {
 		float[] verticesBufferArray = new float[faces.size() * 3 * 3];
 		float[] texCoordsBufferArray = new float[faces.size() * 2 * 3];
 		float[] normalsBufferArray = new float[faces.size() * 3 * 3];
+		
 		int[] indicesBufferArray = new int[faces.size() * 3];
 		
 		for(int i = 0; i < faces.size(); i++) {
