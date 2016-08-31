@@ -83,7 +83,11 @@ public class HeightMapMesh {
 		//SimplexValueSplineNoise svsn1 = new SimplexValueSplineNoise((long)Utilities.RandomFloat(0, 100));
 		//SimplexValueSplineNoise svsn2 = new SimplexValueSplineNoise((long)Utilities.RandomFloat(0, 100));
 		//SimplexValueSplineNoise svsn3 = new SimplexValueSplineNoise((long)Utilities.RandomFloat(0, 100));
-		float[][] map = ValueNoise.generate();
+		ValueNoise vn = new ValueNoise();
+		float[][] map = vn.generate();
+		
+		width = map.length;
+		height = map.length;
 
 		float incx = 50 * getXLength() / (width - 1);
         float incz = 50 * getZLength() / (height - 1);
@@ -133,7 +137,7 @@ public class HeightMapMesh {
         float[] textCoordsArr = Utilities.listToArray(textCoords);
         float[] normalsArr = calcNormals(posArr, width, height);
         this.mesh = new Mesh(posArr, textCoordsArr, normalsArr, indicesArr);
-        Material material = new Material(texture);
+        Material material = new Material(vn.toTexture());
         mesh.setMaterial(material);
 	}
 	

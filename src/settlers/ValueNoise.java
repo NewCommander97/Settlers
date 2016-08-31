@@ -1,15 +1,24 @@
 package settlers;
 
+import java.awt.Color;
+import java.nio.ByteBuffer;
+
+import org.lwjgl.BufferUtils;
+
 public class ValueNoise {
 	
-	public static float[][] generate()
+	private float[][] map;
+	private float min = 0;
+	private float max = 0;
+	
+	public float[][] generate()
 	{
 		float[][] x5 = new float[5][5];
 		
-		x5[0][0] = Utilities.RandomInt(0, 10);
-		x5[4][0] = Utilities.RandomInt(0, 10);
-		x5[0][4] = Utilities.RandomInt(0, 10);
-		x5[4][4] = Utilities.RandomInt(0, 10);
+		x5[0][0] = Utilities.RandomInt(0, 5);
+		x5[4][0] = Utilities.RandomInt(0, 5);
+		x5[0][4] = Utilities.RandomInt(0, 5);
+		x5[4][4] = Utilities.RandomInt(0, 5);
 		
 		x5 = make5x5(x5);
 		float[][] step1 = arrayToarray(x5);
@@ -18,10 +27,13 @@ public class ValueNoise {
 		step2 = makenxn(step2);
 		float[][] step3 = arrayToarray(step2);
 		step3 = makenxn(step3);
-		return normalize(step3);
+		float[][] step4 = normalize(step3);
+		step4 = makenxn(step4);
+		map = normalize(step4);
+		return map;
 	}
 	
-	private static float[][] arrayToarray(float[][] array)
+	private float[][] arrayToarray(float[][] array)
 	{
 		int length = array.length + (3*(array.length - 1));
 		float[][] res = new float[length][length];
@@ -29,16 +41,13 @@ public class ValueNoise {
 		{
 			for (int n=0; n<array.length; n++)
 			{
-				if (Utilities.RandomInt(0, 5) > 3)
-					res[i*4][n*4] = Utilities.RandomInt(5, 10);
-				else
-					res[i*4][n*4] = array[i][n];
+				res[i*4][n*4] = array[i][n] + Utilities.RandomInt(-2, 2);
 			}
 		}
 		return res;
 	}
 	
-	private static float[][] makenxn(float[][] xn)
+	private float[][] makenxn(float[][] xn)
 	{
 		for (int i=0; i<=xn.length/4; i++)
 			for (int n=0; n<xn.length/4; n++)
@@ -71,7 +80,7 @@ public class ValueNoise {
 		return xn;
 	}
 	
-	private static float[][] make5x5(float[][] x5)
+	private float[][] make5x5(float[][] x5)
 	{		
 		x5[0] = interpolate(x5[0]);
 		float[] col = new float[5];
@@ -91,7 +100,7 @@ public class ValueNoise {
 		return x5;
 	}
 	
-	private static float[] interpolate(float[] src)
+	private float[] interpolate(float[] src)
 	{
 		float[] res = new float[src.length];
 		float mid = midValue(src);
@@ -114,7 +123,7 @@ public class ValueNoise {
 		return res;	
 	}
 	
-	private static float midValue(float[] array)
+	private float midValue(float[] array)
 	{
 		float distance = 0;
 		if (array[0] > array[array.length-1])
@@ -124,10 +133,8 @@ public class ValueNoise {
 		return distance / (array.length-1);
 	}
 	
-	private static float[][] normalize(float[][] src)
+	private float[][] normalize(float[][] src)
 	{
-		float min = 0;
-		float max = 0;
 		for (int i=0; i<src.length; i++)
 			for (int n=0; n<src.length; n++)
 			{
@@ -136,14 +143,28 @@ public class ValueNoise {
 				if (src[i][n] > max)
 					max = src[i][n];
 			}
-		
+		max = max / 2;
 		for (int i=0; i<src.length; i++)
 			for (int n=0; n<src.length; n++)
 			{
 				src[i][n] -= min;
-				src[i][n] = src[i][n] / max;
+				src[i][n] = src[i][n] / 2;
 			}
 		
 		return src;
+	}
+	
+	public Texture toTexture()
+	{
+		ByteBuffer buffer = BufferUtils.createByteBuffer(map.length * map.length * 4);
+		float n = 1 / max;
+		for(int y = 0; y < map.length; y++) {
+			for(int x = 0; x < map.length; x++) {
+				Color c = new Color(1 - (n * map[y][x]), 1 - (n * map[y][x]), 1 - (n * map[y][x]));
+				buffer.putInt(c.getRGB());
+			}
+		}
+		buffer.flip();
+		return new Texture(buffer, map.length, map.length);
 	}
 }
