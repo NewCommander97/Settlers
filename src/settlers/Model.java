@@ -35,52 +35,51 @@ public class Model {
 	public Model(List<Vector3f> vertices, List<Vector2f> texCoords, List<Vector3f> normals, List<Face> faces,Texture texture) {
 		this.texture = texture;
 		
-		float[] verticesBufferArray = new float[vertices.size() * 3];
-		float[] texCoordsBufferArray = new float[vertices.size() * 2];
-		float[] normalsBufferArray = new float[vertices.size() * 3];
+		float[] verticesBufferArray = new float[faces.size() * 3 * 3];
+		float[] texCoordsBufferArray = new float[faces.size() * 2 * 3];
+		float[] normalsBufferArray = new float[faces.size() * 3 * 3];
 		int[] indicesBufferArray = new int[faces.size() * 3];
 		
-		for(Face face : faces) {
-			verticesBufferArray[(int) (face.vertexIndices.x * 3) - 3] = vertices.get((int) face.vertexIndices.x - 1).x;
-			verticesBufferArray[(int) (face.vertexIndices.x * 3) - 2] = vertices.get((int) face.vertexIndices.x - 1).y;
-			verticesBufferArray[(int) (face.vertexIndices.x * 3) - 1] = vertices.get((int) face.vertexIndices.x - 1).z;
-			
-			verticesBufferArray[(int) (face.vertexIndices.y * 3) - 3] = vertices.get((int) face.vertexIndices.y - 1).x;
-			verticesBufferArray[(int) (face.vertexIndices.y * 3) - 2] = vertices.get((int) face.vertexIndices.y - 1).y;
-			verticesBufferArray[(int) (face.vertexIndices.y * 3) - 1] = vertices.get((int) face.vertexIndices.y - 1).z;
-			
-			verticesBufferArray[(int) (face.vertexIndices.z * 3) - 3] = vertices.get((int) face.vertexIndices.z - 1).x;
-			verticesBufferArray[(int) (face.vertexIndices.z * 3) - 2] = vertices.get((int) face.vertexIndices.z - 1).y;
-			verticesBufferArray[(int) (face.vertexIndices.z * 3) - 1] = vertices.get((int) face.vertexIndices.z - 1).z;
-			
-			
-			texCoordsBufferArray[(int) (face.vertexIndices.x * 2) - 2] = texCoords.get((int) face.texCoodIndices.x - 1).x;
-			texCoordsBufferArray[(int) (face.vertexIndices.x * 2) - 1] = texCoords.get((int) face.texCoodIndices.x - 1).y;
-			
-			texCoordsBufferArray[(int) (face.vertexIndices.y * 2) - 2] = texCoords.get((int) face.texCoodIndices.y - 1).x;
-			texCoordsBufferArray[(int) (face.vertexIndices.y * 2) - 1] = texCoords.get((int) face.texCoodIndices.y - 1).y;
-			
-			texCoordsBufferArray[(int) (face.vertexIndices.z * 2) - 2] = texCoords.get((int) face.texCoodIndices.z - 1).x;
-			texCoordsBufferArray[(int) (face.vertexIndices.z * 2) - 1] = texCoords.get((int) face.texCoodIndices.z - 1).y;
-			
-			
-			normalsBufferArray[(int) (face.vertexIndices.x * 3) - 3] = normals.get((int) face.normalIndices.x - 1).x;
-			normalsBufferArray[(int) (face.vertexIndices.x * 3) - 2] = normals.get((int) face.normalIndices.x - 1).y;
-			normalsBufferArray[(int) (face.vertexIndices.x * 3) - 1] = normals.get((int) face.normalIndices.x - 1).z;
-			
-			normalsBufferArray[(int) (face.vertexIndices.y * 3) - 3] = normals.get((int) face.normalIndices.y - 1).x;
-			normalsBufferArray[(int) (face.vertexIndices.y * 3) - 2] = normals.get((int) face.normalIndices.y - 1).y;
-			normalsBufferArray[(int) (face.vertexIndices.y * 3) - 1] = normals.get((int) face.normalIndices.y - 1).z;
-			
-			normalsBufferArray[(int) (face.vertexIndices.z * 3) - 3] = normals.get((int) face.normalIndices.z - 1).x;
-			normalsBufferArray[(int) (face.vertexIndices.z * 3) - 2] = normals.get((int) face.normalIndices.z - 1).y;
-			normalsBufferArray[(int) (face.vertexIndices.z * 3) - 1] = normals.get((int) face.normalIndices.z - 1).z;
-		}
-		
 		for(int i = 0; i < faces.size(); i++) {
-			indicesBufferArray[(i * 3)] = (int) faces.get(i).vertexIndices.x - 1;
-			indicesBufferArray[(i * 3) + 1] = (int) faces.get(i).vertexIndices.y - 1;
-			indicesBufferArray[(i * 3) + 2] = (int) faces.get(i).vertexIndices.z - 1;
+			verticesBufferArray[(i * 9)] = vertices.get((int) faces.get(i).vertexIndices.x - 1).x;
+			verticesBufferArray[(i * 9) + 1] = vertices.get((int) faces.get(i).vertexIndices.x - 1).y;
+			verticesBufferArray[(i * 9) + 2] = vertices.get((int) faces.get(i).vertexIndices.x - 1).z;
+			
+			verticesBufferArray[(i * 9) + 3] = vertices.get((int) faces.get(i).vertexIndices.y - 1).x;
+			verticesBufferArray[(i * 9) + 4] = vertices.get((int) faces.get(i).vertexIndices.y - 1).y;
+			verticesBufferArray[(i * 9) + 5] = vertices.get((int) faces.get(i).vertexIndices.y - 1).z;
+			
+			verticesBufferArray[(i * 9) + 6] = vertices.get((int) faces.get(i).vertexIndices.z - 1).x;
+			verticesBufferArray[(i * 9) + 7] = vertices.get((int) faces.get(i).vertexIndices.z - 1).y;
+			verticesBufferArray[(i * 9) + 8] = vertices.get((int) faces.get(i).vertexIndices.z - 1).z;
+			
+			
+			texCoordsBufferArray[(i * 6)] = texCoords.get((int) (faces.get(i).texCoodIndices.x - 1)).x;
+			texCoordsBufferArray[(i * 6) + 1] = texCoords.get((int) (faces.get(i).texCoodIndices.x - 1)).y;
+			
+			texCoordsBufferArray[(i * 6) + 2] = texCoords.get((int) (faces.get(i).texCoodIndices.y - 1)).x;
+			texCoordsBufferArray[(i * 6) + 3] = texCoords.get((int) (faces.get(i).texCoodIndices.y - 1)).y;
+			
+			texCoordsBufferArray[(i * 6) + 4] = texCoords.get((int) (faces.get(i).texCoodIndices.z - 1)).x;
+			texCoordsBufferArray[(i * 6) + 5] = texCoords.get((int) (faces.get(i).texCoodIndices.z - 1)).y;
+			
+			
+			normalsBufferArray[(i * 9)] = normals.get((int) (faces.get(i).normalIndices.x - 1)).x;
+			normalsBufferArray[(i * 9) + 1] = normals.get((int) (faces.get(i).normalIndices.x - 1)).y;
+			normalsBufferArray[(i * 9) + 2] = normals.get((int) (faces.get(i).normalIndices.x - 1)).z;
+			
+			normalsBufferArray[(i * 9) + 3] = normals.get((int) (faces.get(i).normalIndices.y - 1)).x;
+			normalsBufferArray[(i * 9) + 4] = normals.get((int) (faces.get(i).normalIndices.y - 1)).y;
+			normalsBufferArray[(i * 9) + 5] = normals.get((int) (faces.get(i).normalIndices.y - 1)).z;
+			
+			normalsBufferArray[(i * 9) + 6] = normals.get((int) (faces.get(i).normalIndices.z - 1)).x;
+			normalsBufferArray[(i * 9) + 7] = normals.get((int) (faces.get(i).normalIndices.z - 1)).y;
+			normalsBufferArray[(i * 9) + 8] = normals.get((int) (faces.get(i).normalIndices.z - 1)).z;
+			
+			
+			indicesBufferArray[(i * 3)] = (i * 3);
+			indicesBufferArray[(i * 3) + 1] = (i * 3) + 1;
+			indicesBufferArray[(i * 3) + 2] = (i * 3) + 2;
 		}
 		
 		vertexCount = faces.size() * 3;
@@ -167,32 +166,7 @@ public class Model {
 		glDrawElements(GL_TRIANGLES, getVertexCount(), GL_UNSIGNED_INT, 0);
 		
 		endRender();
-		/*texture.bind();
-		glBegin(GL_TRIANGLES);
-			for(Face face : faces) {
-				Vector3f n1 = normals.get((int) face.normalIndices.x - 1);
-				glNormal3f(n1.x, n1.y, n1.z);
-				Vector2f t1 = texCoords.get((int) face.texCoodIndices.x - 1);
-				glTexCoord2f(t1.x, t1.y);
-				Vector3f v1 = vertices.get((int) face.vertexIndices.x - 1);
-				glVertex3f(v1.x, v1.y, v1.z);
-				
-				Vector3f n2 = normals.get((int) face.normalIndices.y - 1);
-				glNormal3f(n2.x, n2.y, n2.z);
-				Vector2f t2 = texCoords.get((int) face.texCoodIndices.y - 1);
-				glTexCoord2f(t2.x, t2.y);
-				Vector3f v2 = vertices.get((int) face.vertexIndices.y - 1);
-				glVertex3f(v2.x, v2.y, v2.z);
-				
-				Vector3f n3 = normals.get((int) face.normalIndices.z - 1);
-				glNormal3f(n3.x, n3.y, n3.z);
-				Vector2f t3 = texCoords.get((int) face.texCoodIndices.z - 1);
-				glTexCoord2f(t3.x, t3.y);
-				Vector3f v3 = vertices.get((int) face.vertexIndices.z - 1);
-				glVertex3f(v3.x, v3.y, v3.z);
-			}
-		glEnd();
-		texture.unbind();*/
+		
 		glPopMatrix();
 	}
 	

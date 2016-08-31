@@ -90,7 +90,7 @@ public class Main {
 			shaderProgram.setUniformi(shaderProgram.getUniformLocation("texture_diffuse"), 0);
 			hmm.getMesh().render();
 			
-			mine.render(10, 0.4f, 10, 0.5f, 0);
+			mine.render(10, 0.4f, 10, 0.5f, getTime());
 			ShaderProgram.unbind();
 			
 			glPushMatrix();
@@ -141,6 +141,7 @@ public class Main {
 		textureManager.addTexture("sand_normal", "res/sand_normalmap.png");
 		textureManager.addTexture("test", "res/test.png");
 		textureManager.addTexture("mine", "res/Mine_diffuse.png");
+		textureManager.addTexture("uv_checker", "res/uv_checker.png");
 	}
 	
 	private void initGLFW() {
