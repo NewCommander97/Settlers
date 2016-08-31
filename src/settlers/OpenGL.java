@@ -56,9 +56,11 @@ public class OpenGL {
 		glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);			// tell opengl glColor3f effects the ambient and diffuse properties of material
 		//----------- END: Variables & method calls added for Lighting Test -----------//
 		
-		Camera.create();
 		
-		//glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+		// Vertex mode
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		
+		Camera.create();
 	}
 	
 	private static void initLightArrays() {

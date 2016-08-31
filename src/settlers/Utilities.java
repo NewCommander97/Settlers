@@ -122,4 +122,16 @@ public class Utilities {
 			r = r % end;
 		return r;
 	}
+	
+	public static float[] ArrayCopy(float[] src, int start, int len)
+	{
+		float[] res = new float[len];
+		int index = 0;
+		for (int i=start; i<start+len; i++)
+		{
+			res[index] = src[i];
+			index++;
+		}
+		return res;
+	}
 }
