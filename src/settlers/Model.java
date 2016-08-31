@@ -35,9 +35,16 @@ public class Model {
 	public Model(List<Vector3f> vertices, List<Vector2f> texCoords, List<Vector3f> normals, List<Face> faces,Texture texture) {
 		this.texture = texture;
 		
+<<<<<<< HEAD
 		float[] verticesBufferArray = new float[vertices.size() * 3];
 		float[] texCoordsBufferArray = new float[vertices.size() * 2];
 		float[] normalsBufferArray = new float[vertices.size() * 3];
+=======
+		float[] verticesBufferArray = new float[faces.size() * 3 * 3];
+		float[] texCoordsBufferArray = new float[faces.size() * 2 * 3];
+		float[] normalsBufferArray = new float[faces.size() * 3 * 3];
+		
+>>>>>>> origin/master
 		int[] indicesBufferArray = new int[faces.size() * 3];
 		
 		for(Face face : faces) {
