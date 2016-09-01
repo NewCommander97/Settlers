@@ -56,7 +56,7 @@ public class Main {
 		try {
 			//hmm = new HeightMapMesh(0.0f, 3.0f, "res/Heightmap_small.png", textureManager.getTexture("sand"), 10);
 			hmm = new HeightMapMesh();
-			hmm.randomize(32, 32, 0f, 10f, textureManager.getTexture("sand"), 10);
+			hmm.randomize(128, 128, 0f, 10f, textureManager.getTexture("grass"), 1);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
